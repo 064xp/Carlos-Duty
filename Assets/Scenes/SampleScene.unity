@@ -679,6 +679,8 @@ MonoBehaviour:
   range: 100
   muzzleFlash: {fileID: 1827461179}
   impactEffect: {fileID: 19800004, guid: 0438351a6e6422d43a09930e9be00ee9, type: 3}
+  fireRate: 5
+  fireMode: 1
 --- !u!1 &1435411236
 GameObject:
   m_ObjectHideFlags: 0

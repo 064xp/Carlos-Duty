@@ -8,18 +8,32 @@ public class GunScript : MonoBehaviour
     public float range = 100f;
     public ParticleSystem muzzleFlash;
     public ParticleSystem impactEffect;
+    public float fireRate = 10f;
+    public FireModes fireMode;
 
     private Camera fpsCam;
+    private float nextTimeToFire = 0f;
+    private delegate bool FireInputMethod(string name) ;
+    FireInputMethod inputMethod;
+
     // Start is called before the first frame update
     void Start()
     {
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
+
+        inputMethod = fireMode switch
+        {
+            FireModes.Automatic => Input.GetButton,
+            FireModes.SemiAutomatic => Input.GetButtonDown,
+            _ => Input.GetButton,
+        };
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1")) {
+        if(inputMethod("Fire1") && Time.time >= nextTimeToFire) {
+            nextTimeToFire = Time.time + 1 / fireRate;
             Shoot();
         }
     }
@@ -32,6 +46,12 @@ public class GunScript : MonoBehaviour
         }
 
         // Impact effect
-        Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        GameObject impactObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
+        Destroy(impactObject, 2f);
+    }
+
+    public enum FireModes{
+        SemiAutomatic,
+        Automatic
     }
 }
