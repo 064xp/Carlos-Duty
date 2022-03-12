@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a874853e2d3365945a998930fd944daa, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a874853e2d3365945a998930fd944daa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a874853e2d3365945a998930fd944daa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a874853e2d3365945a998930fd944daa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -472,8 +472,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 885018860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.23, z: 0}
+  m_LocalScale: {x: 1.3077266, y: 1.3, z: 1.3077266}
   m_Children: []
   m_Father: {fileID: 1892144776}
   m_RootOrder: 1
@@ -655,11 +655,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402628058}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00014693, y: -0.16094, z: -0.14071}
-  m_LocalScale: {x: 0.65343, y: 0.65343, z: 0.65343}
+  m_LocalPosition: {x: -0.295, y: -0.242, z: -1.057}
+  m_LocalScale: {x: 0.30782107, y: 0.30782107, z: 0.30782107}
   m_Children:
-  - {fileID: 1106508456}
   - {fileID: 1827461177}
+  - {fileID: 1106508456}
   m_Father: {fileID: 836487182}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -675,12 +675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0686955199263498fc77f85676fda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  range: 100
-  muzzleFlash: {fileID: 1827461179}
-  impactEffect: {fileID: 19800004, guid: 0438351a6e6422d43a09930e9be00ee9, type: 3}
-  fireRate: 5
-  fireMode: 1
+  gunSettings: {fileID: 11400000, guid: 042c2f23f907a9e49bbfcd1e0cb32675, type: 2}
 --- !u!1 &1435411236
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,7 +769,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781898440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 836487182}
@@ -854,11 +849,6 @@ MonoBehaviour:
 --- !u!4 &1827461177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2250592191149763086, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
-  m_PrefabInstance: {fileID: 2250592189599134263}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &1827461179 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2250592191149763084, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
   m_PrefabInstance: {fileID: 2250592189599134263}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1876707111
@@ -1228,15 +1218,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2250592191149763086, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2250592191149763086, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.001
+      value: -0.001
       objectReference: {fileID: 0}
     - target: {fileID: 2250592191149763086, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.109
+      value: 1.3073
       objectReference: {fileID: 0}
     - target: {fileID: 2250592191149763086, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
       propertyPath: m_LocalPosition.z

@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
-    public float damage = 10f;
-    public float range = 100f;
-    public ParticleSystem muzzleFlash;
-    public ParticleSystem impactEffect;
-    public float fireRate = 10f;
-    public FireModes fireMode;
+    public Gun gunSettings;
 
     private Camera fpsCam;
     private float nextTimeToFire = 0f;
     private delegate bool FireInputMethod(string name) ;
-    FireInputMethod inputMethod;
+    private FireInputMethod inputMethod;
+
+    private int ammo;
 
     // Start is called before the first frame update
     void Start()
     {
+
+        ammo = gunSettings.maxAmmo;
+
+        // On pickup
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
 
-        inputMethod = fireMode switch
+        inputMethod = gunSettings.fireMode switch
         {
-            FireModes.Automatic => Input.GetButton,
-            FireModes.SemiAutomatic => Input.GetButtonDown,
+            Gun.FireModes.Automatic => Input.GetButton,
+            Gun.FireModes.SemiAutomatic => Input.GetButtonDown,
             _ => Input.GetButton,
         };
     }
@@ -33,25 +34,21 @@ public class GunScript : MonoBehaviour
     void Update()
     {
         if(inputMethod("Fire1") && Time.time >= nextTimeToFire) {
-            nextTimeToFire = Time.time + 1 / fireRate;
+            nextTimeToFire = Time.time + 1 / gunSettings.fireRate;
             Shoot();
         }
     }
 
     void Shoot() {
         RaycastHit hit;
-        muzzleFlash.Play();
-        if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range)) {
+        gunSettings.muzzleFlash.Play();
+        if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, gunSettings.range)) {
             print(hit.transform.name);
         }
 
         // Impact effect
-        GameObject impactObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
+        GameObject impactObject = Instantiate(gunSettings.impactEffect, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
         Destroy(impactObject, 2f);
     }
 
-    public enum FireModes{
-        SemiAutomatic,
-        Automatic
-    }
 }
