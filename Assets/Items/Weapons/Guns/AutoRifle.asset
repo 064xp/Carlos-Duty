@@ -15,7 +15,7 @@ MonoBehaviour:
   fireMode: 1
   damage: 10
   range: 100
-  fireRate: 5
+  fireRate: 8
   reloadTime: 1
   startAmmo: 120
   clipSize: 30

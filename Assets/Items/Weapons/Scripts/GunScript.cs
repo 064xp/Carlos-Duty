@@ -28,7 +28,7 @@ public class GunScript : MonoBehaviour
         isReloading = false;
 
         animator.SetFloat("ReloadTimeMultiplier", 1 / gunSettings.reloadTime);
-        animator.SetFloat("ShootTimeMultiplier", gunSettings.fireRate);
+        //animator.SetFloat("ShootTimeMultiplier", gunSettings.fireRate);
 
         // On pickup
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
