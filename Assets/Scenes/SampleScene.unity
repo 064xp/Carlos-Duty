@@ -178,6 +178,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: SubmachineGun_02
       objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: a874853e2d3365945a998930fd944daa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: a874853e2d3365945a998930fd944daa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: a874853e2d3365945a998930fd944daa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: a874853e2d3365945a998930fd944daa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: a874853e2d3365945a998930fd944daa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: a874853e2d3365945a998930fd944daa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a874853e2d3365945a998930fd944daa, type: 3}
 --- !u!1 &657624289
@@ -374,8 +398,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836487181}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.72, y: -0.4333, z: 1.98}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.584, y: -0.34153652, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1402628059}
@@ -640,6 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1402628059}
   - component: {fileID: 1402628060}
+  - component: {fileID: 1402628061}
   m_Layer: 0
   m_Name: SMG
   m_TagString: Untagged
@@ -654,9 +679,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402628058}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.295, y: -0.242, z: -1.057}
-  m_LocalScale: {x: 0.30782107, y: 0.30782107, z: 0.30782107}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: -0.37246346, z: 0}
+  m_LocalScale: {x: 0.3078211, y: 0.30782107, z: 0.30782107}
   m_Children:
   - {fileID: 1827461177}
   - {fileID: 1106508456}
@@ -676,6 +701,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunSettings: {fileID: 11400000, guid: 042c2f23f907a9e49bbfcd1e0cb32675, type: 2}
+--- !u!95 &1402628061
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402628058}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cfb7e5d9de5a3af4ca7946b39bab20e7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1435411236
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,7 +813,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781898440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0.44}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0.122}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 836487182}
@@ -809,7 +853,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 45
+  field of view: 50.2
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
