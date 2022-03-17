@@ -12,6 +12,7 @@ public class GunScript : MonoBehaviour
     private FireInputMethod inputMethod;
     private Animator animator;
     private ParticleSystem muzzleFlash;
+    private AudioSource audioSource;
 
     // Internal state
     private float nextTimeToFire = 0f;
@@ -27,6 +28,7 @@ public class GunScript : MonoBehaviour
     {
         // Get components
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         // Initialize variables
         ammo = gunSettings.startAmmo;
@@ -82,8 +84,9 @@ public class GunScript : MonoBehaviour
         RaycastHit hit;
 
         animator.CrossFadeInFixedTime("Shooting", 0f, 0);
-
         muzzleFlash.Play();
+        gunSettings.audioEvent.Play(audioSource);
+
         if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, gunSettings.range)) {
             print(hit.transform.name);
         }
