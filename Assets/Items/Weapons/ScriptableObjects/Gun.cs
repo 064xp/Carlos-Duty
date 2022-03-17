@@ -13,6 +13,7 @@ public class Gun : ScriptableObject {
     public float range;
     public float fireRate;
     public float reloadTime;
+    public float ADSTime;
     public int startAmmo;
     public int clipSize;
     public ParticleSystem muzzleFlash;

@@ -17,6 +17,7 @@ MonoBehaviour:
   range: 100
   fireRate: 8
   reloadTime: 1
+  ADSTime: 0.1
   startAmmo: 120
   clipSize: 30
   muzzleFlash: {fileID: 2250592191149763084, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
