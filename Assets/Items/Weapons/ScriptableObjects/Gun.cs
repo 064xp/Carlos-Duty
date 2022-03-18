@@ -18,5 +18,6 @@ public class Gun : ScriptableObject {
     public int clipSize;
     public ParticleSystem muzzleFlash;
     public ParticleSystem impactEffect;
-    public SimpleAudioEvent audioEvent;
+    public SimpleAudioEvent shootAudioEvent;
+    public SimpleAudioEvent reloadAudioEvent;
 }

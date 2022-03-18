@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ee08716b2549a24f8e563f6df9d2d93, type: 3}
-  m_Name: AutoRifleAudio
+  m_Name: ShootAutoRifleAudio
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: 25238abf6e83a7b439359d4bed975dfb, type: 3}

@@ -19,6 +19,7 @@ public class GunScript : MonoBehaviour
     private float nextTimeToFire = 0f;
     private int ammo;
     private int magazineAmmo;
+    [SerializeField]
     private bool isReloading;
     private bool wasADS;
     private float originalCamFOV;
@@ -84,7 +85,7 @@ public class GunScript : MonoBehaviour
 
         animator.CrossFadeInFixedTime("Shooting", 0f, 0);
         muzzleFlash.Play();
-        gunSettings.audioEvent.Play(audioSource);
+        gunSettings.shootAudioEvent.Play(audioSource);
 
         if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, gunSettings.range)) {
             print(hit.transform.name);
@@ -99,24 +100,25 @@ public class GunScript : MonoBehaviour
 
     void StartReload() {
         if (ammo == 0 || magazineAmmo == gunSettings.clipSize) return;
-        
+
+        gunSettings.reloadAudioEvent.Play(audioSource);
         isReloading = true;
         animator.SetTrigger("Reload");
         wasADS = animator.GetBool("IsADS");
         animator.SetBool("IsADS", false);
     }
 
-    void EndReload() {
+    public void EndReload() {
         if (wasADS) animator.SetBool("IsADS", true);
 
+        print("end reload");
+        isReloading = false;
         if(ammo < gunSettings.clipSize) {
             magazineAmmo = ammo;
             ammo = 0;
-            isReloading = false;
         } else {
             magazineAmmo = gunSettings.clipSize;
             ammo -= gunSettings.clipSize;
-            isReloading = false;
         }
     }
 
