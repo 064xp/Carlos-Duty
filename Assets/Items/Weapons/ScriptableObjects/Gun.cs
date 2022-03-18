@@ -6,14 +6,14 @@ public class Gun : ScriptableObject {
         SemiAutomatic,
         Automatic
     }
-    //public FireModes fireMode { get { return _speed; } private set { _speed = value; } }
-    //[SerializeField] private float _speed = 5.0f;
+
     public FireModes fireMode = FireModes.Automatic;
     public float damage;
     public float range;
     public float fireRate;
     public float reloadTime;
     public float ADSTime;
+    public float ADSFov = 45f;
     public int startAmmo;
     public int clipSize;
     public ParticleSystem muzzleFlash;

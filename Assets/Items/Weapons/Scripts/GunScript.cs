@@ -13,6 +13,7 @@ public class GunScript : MonoBehaviour
     private Animator animator;
     private ParticleSystem muzzleFlash;
     private AudioSource audioSource;
+    private GameObject crosshair;
 
     // Internal state
     private float nextTimeToFire = 0f;
@@ -20,6 +21,7 @@ public class GunScript : MonoBehaviour
     private int magazineAmmo;
     private bool isReloading;
     private bool wasADS;
+    private float originalCamFOV;
 
     public Transform muzzleFlashPos;
 
@@ -44,6 +46,8 @@ public class GunScript : MonoBehaviour
 
         // On pickup
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
+        crosshair = GameObject.Find("Crosshair");
+        originalCamFOV = fpsCam.fieldOfView;
 
         inputMethod = gunSettings.fireMode switch
         {
@@ -71,14 +75,9 @@ public class GunScript : MonoBehaviour
         }
 
         // Check for ADS
-        if (Input.GetButtonDown("Fire2")){
-            bool isADS = animator.GetBool("IsADS");
-            animator.SetBool("IsADS", !isADS);
-        }
-
+        ADS();
 
     }
-
 
     void Shoot() {
         RaycastHit hit;
@@ -121,4 +120,26 @@ public class GunScript : MonoBehaviour
         }
     }
 
+    void ADS() {
+        if (Input.GetButtonDown("Fire2")){
+            bool isADS = animator.GetBool("IsADS");
+            float newFov = isADS ? originalCamFOV : gunSettings.ADSFov;
+
+            crosshair.SetActive(isADS);
+            StartCoroutine(LerpFOVTo(newFov));
+            animator.SetBool("IsADS", !isADS);
+        }
+    }
+
+    IEnumerator LerpFOVTo(float value) {
+        float elapsedTime = 0f;
+        float initialFOV = fpsCam.fieldOfView;
+
+        while(elapsedTime <= gunSettings.ADSTime) {
+            elapsedTime += Time.deltaTime;
+            fpsCam.fieldOfView = Mathf.Lerp(initialFOV, value, elapsedTime / gunSettings.ADSTime);
+            yield return null;
+        }
+
+    }
 }
