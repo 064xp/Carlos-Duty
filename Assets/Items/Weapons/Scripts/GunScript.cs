@@ -14,6 +14,7 @@ public class GunScript : MonoBehaviour
     private ParticleSystem muzzleFlash;
     private AudioSource audioSource;
     private GameObject crosshair;
+    private HUDManager hud;
 
     // Internal state
     private float nextTimeToFire = 0f;
@@ -48,6 +49,7 @@ public class GunScript : MonoBehaviour
         // On pickup
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
         crosshair = GameObject.Find("Crosshair");
+        hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();
         originalCamFOV = fpsCam.fieldOfView;
 
         inputMethod = gunSettings.fireMode switch
@@ -56,6 +58,9 @@ public class GunScript : MonoBehaviour
             Gun.FireModes.SemiAutomatic => Input.GetButtonDown,
             _ => Input.GetButton,
         };
+
+        // On equip
+        hud.SetAmmo(magazineAmmo, ammo);
     }
 
     // Update is called once per frame
@@ -96,6 +101,8 @@ public class GunScript : MonoBehaviour
         Destroy(impactObject, 2f);
 
         magazineAmmo--;
+
+        hud.SetAmmo(magazineAmmo, ammo);
     }
 
     void StartReload() {
@@ -120,6 +127,8 @@ public class GunScript : MonoBehaviour
             magazineAmmo = gunSettings.clipSize;
             ammo -= gunSettings.clipSize;
         }
+
+        hud.SetAmmo(magazineAmmo, ammo);
     }
 
     void ADS() {
