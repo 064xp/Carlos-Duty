@@ -124,8 +124,8 @@ public class GunScript : MonoBehaviour
             magazineAmmo = ammo;
             ammo = 0;
         } else {
+            ammo -= gunSettings.clipSize - magazineAmmo;
             magazineAmmo = gunSettings.clipSize;
-            ammo -= gunSettings.clipSize;
         }
 
         hud.SetAmmo(magazineAmmo, ammo);
