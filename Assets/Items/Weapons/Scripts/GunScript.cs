@@ -20,12 +20,12 @@ public class GunScript : MonoBehaviour
     private float nextTimeToFire = 0f;
     private int ammo;
     private int magazineAmmo;
-    [SerializeField]
     private bool isReloading;
     private bool wasADS;
     private float originalCamFOV;
 
     public Transform muzzleFlashPos;
+    public bool usedByAI = false;
 
     // Start is called before the first frame update
     void Start()
@@ -68,31 +68,50 @@ public class GunScript : MonoBehaviour
     {
         if (isReloading) return;
 
-        // Check if need to reload or manual reload
-        if(magazineAmmo <= 0 || Input.GetKeyDown(KeyCode.R)) {
+        // Check if need to reload
+        if(magazineAmmo <= 0) {
             StartReload();
             return;
         }
 
-        // Fire 
-        if(inputMethod("Fire1") && Time.time >= nextTimeToFire) {
-            nextTimeToFire = Time.time + 1 / gunSettings.fireRate;
-            Shoot();
-        }
-
-        // Check for ADS
-        ADS();
+        // Player actions, when weapon is not being used by an AI
+        CheckForUserInputs();
 
     }
 
-    void Shoot() {
+    void CheckForUserInputs() {
+        if (!usedByAI) {
+            // Check for manual reload
+            if(Input.GetKeyDown(KeyCode.R)) {
+                StartReload();
+                return;
+            }
+
+            // Fire 
+            if(inputMethod("Fire1")) {
+                Shoot();
+            }
+
+            // Check for ADS
+            if (Input.GetButtonDown("Fire2")) {
+                ADS();
+            }
+        }
+    }
+
+    public void Shoot() {
+        if (Time.time < nextTimeToFire || isReloading) return;
+        nextTimeToFire = Time.time + 1 / gunSettings.fireRate;
+
         RaycastHit hit;
 
         animator.CrossFadeInFixedTime("Shooting", 0f, 0);
         muzzleFlash.Play();
         gunSettings.shootAudioEvent.Play(audioSource);
 
-        if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, gunSettings.range)) {
+        Transform raycastOrigin = usedByAI ?  muzzleFlashPos : fpsCam.transform;
+
+        if(Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, gunSettings.range)) {
             print(hit.transform.name);
         }
 
@@ -102,7 +121,8 @@ public class GunScript : MonoBehaviour
 
         magazineAmmo--;
 
-        hud.SetAmmo(magazineAmmo, ammo);
+        if(!usedByAI)
+            hud.SetAmmo(magazineAmmo, ammo);
     }
 
     void StartReload() {
@@ -128,18 +148,17 @@ public class GunScript : MonoBehaviour
             magazineAmmo = gunSettings.clipSize;
         }
 
-        hud.SetAmmo(magazineAmmo, ammo);
+        if(!usedByAI)
+            hud.SetAmmo(magazineAmmo, ammo);
     }
 
     void ADS() {
-        if (Input.GetButtonDown("Fire2")){
-            bool isADS = animator.GetBool("IsADS");
-            float newFov = isADS ? originalCamFOV : gunSettings.ADSFov;
+        bool isADS = animator.GetBool("IsADS");
+        float newFov = isADS ? originalCamFOV : gunSettings.ADSFov;
 
-            crosshair.SetActive(isADS);
-            StartCoroutine(LerpFOVTo(newFov));
-            animator.SetBool("IsADS", !isADS);
-        }
+        crosshair.SetActive(isADS);
+        StartCoroutine(LerpFOVTo(newFov));
+        animator.SetBool("IsADS", !isADS);
     }
 
     IEnumerator LerpFOVTo(float value) {

@@ -21,16 +21,23 @@ public class EnemyAI : MonoBehaviour
     private Transform target;
     [SerializeField]
     private Transform player;
+    [SerializeField]
+    private Transform gunContainer;
+    private GunScript gun;
 
     Vector3 directionToPlayer;
     bool inSight = false;
 
     public float shootDistance = 15.0f;
+    public GameObject gunPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        GameObject gunObject = Instantiate(gunPrefab, gunContainer);
+        gun = gunObject.GetComponent<GunScript>();
+        gun.usedByAI = true;
     }
 
     // Update is called once per frame
@@ -95,6 +102,7 @@ public class EnemyAI : MonoBehaviour
 
         if(inSight) {
             LookAt(player);
+            gun.Shoot();
             print("Fire!");
         }
     }
@@ -105,6 +113,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Die() {
         // play death animation
+        gun.usedByAI = false;
         Destroy(this.gameObject, 5);
     }
 
