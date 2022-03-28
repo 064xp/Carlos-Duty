@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Damagable : MonoBehaviour {
+public abstract class Damagable : MonoBehaviour {
     [SerializeField]
-    private int health;
+    protected int health = 100;
     public bool alive { get; private set; } = true;
 
-    void TakeDamage(int damage) {
+    public virtual void TakeDamage(int damage) {
         health -= damage;
         if (health < 0) health = 0;
 
@@ -18,7 +18,5 @@ public class Damagable : MonoBehaviour {
         }
     }
 
-    public virtual void Die() {
-        print($"Die {this.gameObject.name}");
-    }
+    public abstract void Die();
 }

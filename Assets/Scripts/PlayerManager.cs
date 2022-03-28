@@ -10,9 +10,13 @@ public class PlayerManager : Damagable {
         hudManager = GameObject.Find("HUDManager").GetComponent<HUDManager>();
     }
 
+    public override void TakeDamage(int damage) {
+        base.TakeDamage(damage);
+        hudManager.SetHealth(health);
+    }
+
     public override void Die() {
-        base.Die();
-        hudManager.OnGameOver("You ded :(");
+        hudManager.OnGameOver("You died!");
         StartCoroutine(LerpTimeScaleTo(0.0f));
     }
 
