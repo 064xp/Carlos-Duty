@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : Damagable
 {
     private enum States {
         GoToTarget,
@@ -18,15 +18,17 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]
     private States state = States.GoToTarget;
     [SerializeField]
-    private Transform target;
+    private Transform navigationnTarget;
+    [SerializeField]
+    private Transform shootingTarget;
     [SerializeField]
     private Transform player;
     [SerializeField]
     private Transform gunContainer;
     private GunScript gun;
 
-    Vector3 directionToPlayer;
-    bool inSight = false;
+    private Vector3 directionToPlayer;
+    private bool inSight = false;
 
     public float shootDistance = 15.0f;
     public GameObject gunPrefab;
@@ -43,6 +45,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!alive) return;
         UpdateStates();
         CheckForPlayer();
     }
@@ -79,8 +82,8 @@ public class EnemyAI : MonoBehaviour
     }
 
     private void GoToTarget() {
-        if(agent.destination != target.position)
-            agent.SetDestination(target.position);
+        if(agent.destination != navigationnTarget.position)
+            agent.SetDestination(navigationnTarget.position);
 
         if(directionToPlayer.magnitude <= shootDistance && inSight) {
             agent.ResetPath();
@@ -103,16 +106,17 @@ public class EnemyAI : MonoBehaviour
         if(inSight) {
             LookAt(player);
             gun.Shoot();
-            print("Fire!");
         }
     }
 
     private void AttackTarget() {
-
+        LookAt(shootingTarget);
+        gun.Shoot();
     }
 
-    private void Die() {
+    public override void Die() {
         // play death animation
+        agent.ResetPath();
         gun.usedByAI = false;
         Destroy(this.gameObject, 5);
     }
@@ -129,4 +133,5 @@ public class EnemyAI : MonoBehaviour
     private bool HasReached() {
         return agent.hasPath && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
     }
+
 }

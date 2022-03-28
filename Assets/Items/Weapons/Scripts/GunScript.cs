@@ -112,6 +112,7 @@ public class GunScript : MonoBehaviour
         Transform raycastOrigin = usedByAI ?  muzzleFlashPos : fpsCam.transform;
 
         if(Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, gunSettings.range)) {
+            hit.transform.gameObject.SendMessage("TakeDamage", gunSettings.damage, SendMessageOptions.DontRequireReceiver);
             print(hit.transform.name);
         }
 
