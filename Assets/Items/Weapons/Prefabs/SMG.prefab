@@ -47,10 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0686955199263498fc77f85676fda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunSettings: {fileID: 11400000, guid: 042c2f23f907a9e49bbfcd1e0cb32675, type: 2}
-  isReloading: 0
+  Settings: {fileID: 11400000, guid: 042c2f23f907a9e49bbfcd1e0cb32675, type: 2}
+  UsedByAI: 0
+  Ammo: 0
+  MagazineAmmo: 0
+  animator: {fileID: 2758969366921360929}
+  audioSource: {fileID: 2758969366921360930}
   muzzleFlashPos: {fileID: 2758969367825410475}
-  usedByAI: 0
 --- !u!95 &2758969366921360929
 Animator:
   serializedVersion: 3
@@ -81,7 +84,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

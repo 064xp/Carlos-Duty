@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable_Objects/Weapons/Gun")]
-public class Gun : ScriptableObject {
+[CreateAssetMenu(menuName = "Scriptable_Objects/Weapons/Weapon")]
+public class WeaponSettings : ScriptableObject {
     public enum FireModes{
         SemiAutomatic,
         Automatic

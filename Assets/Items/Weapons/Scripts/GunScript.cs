@@ -2,49 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunScript : MonoBehaviour
+public class GunScript : Weapon
 {
-    public Gun gunSettings;
 
     // Object references
     private Camera fpsCam;
     private delegate bool FireInputMethod(string name) ;
     private FireInputMethod inputMethod;
+    [SerializeField]
     private Animator animator;
     private ParticleSystem muzzleFlash;
+    [SerializeField]
     private AudioSource audioSource;
     private GameObject crosshair;
     private HUDManager hud;
 
     // Internal state
     private float nextTimeToFire = 0f;
-    private int ammo;
-    private int magazineAmmo;
     private bool isReloading;
+    [SerializeField]
     private bool wasADS;
     private float originalCamFOV;
-
     public Transform muzzleFlashPos;
-    public bool usedByAI = false;
+
+    private void OnDisable() {
+        animator.SetBool("IsADS", false);
+        animator.CrossFadeInFixedTime("Idle", 0f, 0);
+        crosshair.SetActive(true);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        // Get components
-        animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
-
+        animator.keepAnimatorControllerStateOnDisable = true;
         // Initialize variables
-        ammo = gunSettings.startAmmo;
-        magazineAmmo = gunSettings.clipSize;
+        Ammo = Settings.startAmmo;
+        MagazineAmmo = Settings.clipSize;
         isReloading = false;
 
         // Instantiate particles
-        muzzleFlash = Instantiate<ParticleSystem>(gunSettings.muzzleFlash, muzzleFlashPos);
+        muzzleFlash = Instantiate<ParticleSystem>(Settings.muzzleFlash, muzzleFlashPos);
 
         // Initialize animator variables
-        animator.SetFloat("ReloadTimeMultiplier", 1 / gunSettings.reloadTime);
-        animator.SetFloat("ADSTimeMultiplier", 1 / gunSettings.ADSTime);
+        animator.SetFloat("ReloadTimeMultiplier", 1 / Settings.reloadTime);
+        animator.SetFloat("ADSTimeMultiplier", 1 / Settings.ADSTime);
 
         // On pickup
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
@@ -52,15 +53,15 @@ public class GunScript : MonoBehaviour
         hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();
         originalCamFOV = fpsCam.fieldOfView;
 
-        inputMethod = gunSettings.fireMode switch
+        inputMethod = Settings.fireMode switch
         {
-            Gun.FireModes.Automatic => Input.GetButton,
-            Gun.FireModes.SemiAutomatic => Input.GetButtonDown,
+            WeaponSettings.FireModes.Automatic => Input.GetButton,
+            WeaponSettings.FireModes.SemiAutomatic => Input.GetButtonDown,
             _ => Input.GetButton,
         };
 
         // On equip
-        hud.SetAmmo(magazineAmmo, ammo);
+        hud.SetAmmo(MagazineAmmo, Ammo);
     }
 
     // Update is called once per frame
@@ -69,7 +70,7 @@ public class GunScript : MonoBehaviour
         if (isReloading) return;
 
         // Check if need to reload
-        if(magazineAmmo <= 0) {
+        if(MagazineAmmo <= 0) {
             StartReload();
             return;
         }
@@ -80,7 +81,7 @@ public class GunScript : MonoBehaviour
     }
 
     void CheckForUserInputs() {
-        if (!usedByAI) {
+        if (!UsedByAI) {
             // Check for manual reload
             if(Input.GetKeyDown(KeyCode.R)) {
                 StartReload();
@@ -101,35 +102,35 @@ public class GunScript : MonoBehaviour
 
     public void Shoot() {
         if (Time.time < nextTimeToFire || isReloading) return;
-        nextTimeToFire = Time.time + 1 / gunSettings.fireRate;
+        nextTimeToFire = Time.time + 1 / Settings.fireRate;
 
         RaycastHit hit;
 
         animator.CrossFadeInFixedTime("Shooting", 0f, 0);
         muzzleFlash.Play();
-        gunSettings.shootAudioEvent.Play(audioSource);
+        Settings.shootAudioEvent.Play(audioSource);
 
-        Transform raycastOrigin = usedByAI ?  muzzleFlashPos : fpsCam.transform;
+        Transform raycastOrigin = UsedByAI ?  muzzleFlashPos : fpsCam.transform;
 
-        if(Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, gunSettings.range)) {
-            hit.transform.gameObject.SendMessage("TakeDamage", gunSettings.damage, SendMessageOptions.DontRequireReceiver);
+        if(Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, Settings.range)) {
+            hit.transform.gameObject.SendMessage("TakeDamage", Settings.damage, SendMessageOptions.DontRequireReceiver);
             print(hit.transform.name);
         }
 
         // Impact effect
-        GameObject impactObject = Instantiate(gunSettings.impactEffect, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
+        GameObject impactObject = Instantiate(Settings.impactEffect, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
         Destroy(impactObject, 2f);
 
-        magazineAmmo--;
+        MagazineAmmo--;
 
-        if(!usedByAI)
-            hud.SetAmmo(magazineAmmo, ammo);
+        if(!UsedByAI)
+            hud.SetAmmo(MagazineAmmo, Ammo);
     }
 
     void StartReload() {
-        if (ammo == 0 || magazineAmmo == gunSettings.clipSize) return;
+        if (Ammo == 0 || MagazineAmmo == Settings.clipSize) return;
 
-        gunSettings.reloadAudioEvent.Play(audioSource);
+        Settings.reloadAudioEvent.Play(audioSource);
         isReloading = true;
         animator.SetTrigger("Reload");
         wasADS = animator.GetBool("IsADS");
@@ -141,21 +142,21 @@ public class GunScript : MonoBehaviour
 
         print("end reload");
         isReloading = false;
-        if(ammo < gunSettings.clipSize) {
-            magazineAmmo = ammo;
-            ammo = 0;
+        if(Ammo < Settings.clipSize) {
+            MagazineAmmo = Ammo;
+            Ammo = 0;
         } else {
-            ammo -= gunSettings.clipSize - magazineAmmo;
-            magazineAmmo = gunSettings.clipSize;
+            Ammo -= Settings.clipSize - MagazineAmmo;
+            MagazineAmmo = Settings.clipSize;
         }
 
-        if(!usedByAI)
-            hud.SetAmmo(magazineAmmo, ammo);
+        if(!UsedByAI)
+            hud.SetAmmo(MagazineAmmo, Ammo);
     }
 
     void ADS() {
         bool isADS = animator.GetBool("IsADS");
-        float newFov = isADS ? originalCamFOV : gunSettings.ADSFov;
+        float newFov = isADS ? originalCamFOV : Settings.ADSFov;
 
         crosshair.SetActive(isADS);
         StartCoroutine(LerpFOVTo(newFov));
@@ -166,9 +167,9 @@ public class GunScript : MonoBehaviour
         float elapsedTime = 0f;
         float initialFOV = fpsCam.fieldOfView;
 
-        while(elapsedTime <= gunSettings.ADSTime) {
+        while(elapsedTime <= Settings.ADSTime) {
             elapsedTime += Time.deltaTime;
-            fpsCam.fieldOfView = Mathf.Lerp(initialFOV, value, elapsedTime / gunSettings.ADSTime);
+            fpsCam.fieldOfView = Mathf.Lerp(initialFOV, value, elapsedTime / Settings.ADSTime);
             yield return null;
         }
 

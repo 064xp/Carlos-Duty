@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private MoveSettings settings;
     private Vector3 moveDirection;
     private CharacterController controller;
+    [SerializeField]
+    private WeaponManager weaponManager;
 
     private void Awake() {
         controller = GetComponent<CharacterController>();
@@ -17,10 +19,23 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         Movement();    
+        ManageInputs();
     }
 
     private void FixedUpdate() {
         controller.Move(moveDirection * Time.deltaTime);
+    }
+
+    private void ManageInputs() {
+        // Scroll wheel up
+        if(Input.GetAxis("Mouse ScrollWheel") > 0f) {
+            weaponManager.SwitchToNextWeapon();
+        }
+
+        // Scroll wheel down
+        if(Input.GetAxis("Mouse ScrollWheel") < 0f) {
+            weaponManager.SwitchToNextWeapon();
+        }
     }
 
     private void Movement() {

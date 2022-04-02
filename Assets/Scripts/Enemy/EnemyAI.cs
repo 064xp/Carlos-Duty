@@ -39,7 +39,7 @@ public class EnemyAI : Damagable
         agent = GetComponent<NavMeshAgent>();
         GameObject gunObject = Instantiate(gunPrefab, gunContainer);
         gun = gunObject.GetComponent<GunScript>();
-        gun.usedByAI = true;
+        gun.UsedByAI = true;
     }
 
     // Update is called once per frame
@@ -95,8 +95,6 @@ public class EnemyAI : Damagable
             state = States.AttackTarget;
             print("Attack target state");
         }
-        //if (agent.destination != target.position) {
-        //}
     }
 
     private void AttackPlayer() {
@@ -117,7 +115,7 @@ public class EnemyAI : Damagable
     public override void Die() {
         // play death animation
         agent.ResetPath();
-        gun.usedByAI = false;
+        gun.UsedByAI = false;
         Destroy(this.gameObject, 5);
     }
 
