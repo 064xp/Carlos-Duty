@@ -12,6 +12,7 @@ public class WeaponSettings : ScriptableObject {
     public float range;
     public float fireRate;
     public float reloadTime;
+    public float drawTime;
     public float ADSTime;
     public float ADSFov = 45f;
     public int startAmmo;
@@ -20,4 +21,5 @@ public class WeaponSettings : ScriptableObject {
     public ParticleSystem impactEffect;
     public SimpleAudioEvent shootAudioEvent;
     public SimpleAudioEvent reloadAudioEvent;
+
 }

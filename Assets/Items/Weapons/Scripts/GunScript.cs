@@ -20,14 +20,16 @@ public class GunScript : Weapon
     // Internal state
     private float nextTimeToFire = 0f;
     private bool isReloading;
-    [SerializeField]
     private bool wasADS;
     private float originalCamFOV;
     public Transform muzzleFlashPos;
 
+    private void OnEnable() {
+        animator.CrossFadeInFixedTime("Draw", 0f, 0);
+    }
+
     private void OnDisable() {
         animator.SetBool("IsADS", false);
-        animator.CrossFadeInFixedTime("Idle", 0f, 0);
         crosshair.SetActive(true);
     }
 
@@ -46,6 +48,7 @@ public class GunScript : Weapon
         // Initialize animator variables
         animator.SetFloat("ReloadTimeMultiplier", 1 / Settings.reloadTime);
         animator.SetFloat("ADSTimeMultiplier", 1 / Settings.ADSTime);
+        animator.SetFloat("DrawTimeMultiplier", 1 / Settings.drawTime);
 
         // On pickup
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
