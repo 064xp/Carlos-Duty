@@ -21,11 +21,13 @@ public class GunScript : Weapon
     private float nextTimeToFire = 0f;
     private bool isReloading;
     private bool wasADS;
+    public bool canShoot;
     private float originalCamFOV;
     public Transform muzzleFlashPos;
 
     private void OnEnable() {
         animator.CrossFadeInFixedTime("Draw", 0f, 0);
+        canShoot = false;
     }
 
     private void OnDisable() {
@@ -70,7 +72,7 @@ public class GunScript : Weapon
     // Update is called once per frame
     void Update()
     {
-        if (isReloading) return;
+        if (isReloading || !canShoot) return;
 
         // Check if need to reload
         if(MagazineAmmo <= 0) {
@@ -175,6 +177,9 @@ public class GunScript : Weapon
             fpsCam.fieldOfView = Mathf.Lerp(initialFOV, value, elapsedTime / Settings.ADSTime);
             yield return null;
         }
+    }
 
+    public void SetCanShootTrue() {
+        canShoot = true;
     }
 }
