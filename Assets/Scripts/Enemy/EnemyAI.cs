@@ -26,6 +26,7 @@ public class EnemyAI : Damagable
     [SerializeField]
     private Transform gunContainer;
     private GunScript gun;
+    private GameObject equippedWeapon;
 
     private Vector3 directionToPlayer;
     private bool inSight = false;
@@ -37,9 +38,10 @@ public class EnemyAI : Damagable
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        GameObject gunObject = Instantiate(gunPrefab, gunContainer);
-        gun = gunObject.GetComponent<GunScript>();
+        equippedWeapon = Instantiate(gunPrefab, gunContainer);
+        gun = equippedWeapon.GetComponent<GunScript>();
         gun.UsedByAI = true;
+        equippedWeapon.GetComponent<Animator>().enabled = true;
     }
 
     // Update is called once per frame
@@ -116,7 +118,18 @@ public class EnemyAI : Damagable
         // play death animation
         agent.ResetPath();
         gun.UsedByAI = false;
-        Destroy(this.gameObject, 5);
+
+        RaycastHit hit;
+        GetComponent<CapsuleCollider>().enabled = false;
+
+        if(Physics.Raycast(equippedWeapon.transform.position, Vector3.down, out hit)) {
+            equippedWeapon.transform.SetParent(null);
+            Vector3 newPos = hit.point;
+            newPos.y += 1.0f;
+            equippedWeapon.transform.position = newPos;
+        }
+
+        Destroy(this.gameObject, 1);
     }
 
     // Utility functions

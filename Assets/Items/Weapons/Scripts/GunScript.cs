@@ -51,21 +51,20 @@ public class GunScript : Weapon
         animator.SetFloat("ADSTimeMultiplier", 1 / Settings.ADSTime);
         animator.SetFloat("DrawTimeMultiplier", 1 / Settings.drawTime);
 
-        // On pickup
-        fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
-        crosshair = GameObject.Find("Crosshair");
-        hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();
-        originalCamFOV = fpsCam.fieldOfView;
-
         inputMethod = Settings.fireMode switch
         {
             WeaponSettings.FireModes.Automatic => Input.GetButton,
             WeaponSettings.FireModes.SemiAutomatic => Input.GetButtonDown,
             _ => Input.GetButton,
         };
+    }
 
-        // On equip
-        hud.SetAmmo(MagazineAmmo, Ammo);
+    override public void OnPickup() {
+        // On pickup
+        fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
+        crosshair = GameObject.Find("Crosshair");
+        hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();
+        originalCamFOV = fpsCam.fieldOfView;
     }
 
     // Update is called once per frame

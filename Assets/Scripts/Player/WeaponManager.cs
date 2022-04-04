@@ -98,6 +98,8 @@ public class WeaponManager : MonoBehaviour
                 gameObject.transform.gameObject.SetActive(false);
 
             gameObject.transform.SetParent(transform);
+
+            weapon.OnPickup();
         }
 
         SelectWeapon();

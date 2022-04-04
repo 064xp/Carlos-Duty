@@ -17,4 +17,5 @@ public class Weapon : MonoBehaviour {
         return "NO_NAME_SET";
     }
 
+    virtual public void OnPickup() { }
 }
