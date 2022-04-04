@@ -5,6 +5,12 @@ using UnityEngine;
 public class Weapon : MonoBehaviour {
     public WeaponSettings Settings;
     public bool UsedByAI = false;
+    public bool canShoot = false;
     public int Ammo;
     public int MagazineAmmo;
+
+    public void SetCanShootTrue() {
+        canShoot = true;
+    }
+
 }

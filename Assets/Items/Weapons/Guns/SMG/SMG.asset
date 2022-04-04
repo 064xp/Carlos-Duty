@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cad93d5573c193479a6fea1b71005d5, type: 3}
+  m_Name: SMG
+  m_EditorClassIdentifier: 
+  fireMode: 1
+  damage: 4
+  range: 100
+  fireRate: 8
+  reloadTime: 1.5
+  drawTime: 0.5
+  ADSTime: 0.2
+  ADSFov: 32
+  startAmmo: 120
+  clipSize: 30
+  muzzleFlash: {fileID: 2250592191149763084, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
+  impactEffect: {fileID: 19800004, guid: 0438351a6e6422d43a09930e9be00ee9, type: 3}
+  shootAudioEvent: {fileID: 11400000, guid: 7e805163074c36b4dbd895b657aa9d01, type: 2}
+  reloadAudioEvent: {fileID: 11400000, guid: 26fa6534f31075c4383d2b2ccef986ea, type: 2}

@@ -21,7 +21,6 @@ public class GunScript : Weapon
     private float nextTimeToFire = 0f;
     private bool isReloading;
     private bool wasADS;
-    public bool canShoot;
     private float originalCamFOV;
     public Transform muzzleFlashPos;
 
@@ -118,6 +117,8 @@ public class GunScript : Weapon
         Transform raycastOrigin = UsedByAI ?  muzzleFlashPos : fpsCam.transform;
 
         if(Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, Settings.range)) {
+            if (!UsedByAI && hit.transform.gameObject.CompareTag("Player")) return;
+
             hit.transform.gameObject.SendMessage("TakeDamage", Settings.damage, SendMessageOptions.DontRequireReceiver);
             print(hit.transform.name);
         }
@@ -139,13 +140,16 @@ public class GunScript : Weapon
         isReloading = true;
         animator.SetTrigger("Reload");
         wasADS = animator.GetBool("IsADS");
+        if (wasADS) StartCoroutine(LerpFOVTo(originalCamFOV));
         animator.SetBool("IsADS", false);
     }
 
     public void EndReload() {
-        if (wasADS) animator.SetBool("IsADS", true);
+        if (wasADS) {
+            animator.SetBool("IsADS", true);
+            StartCoroutine(LerpFOVTo(Settings.ADSFov));
+        }
 
-        print("end reload");
         isReloading = false;
         if(Ammo < Settings.clipSize) {
             MagazineAmmo = Ammo;
@@ -177,9 +181,5 @@ public class GunScript : Weapon
             fpsCam.fieldOfView = Mathf.Lerp(initialFOV, value, elapsedTime / Settings.ADSTime);
             yield return null;
         }
-    }
-
-    public void SetCanShootTrue() {
-        canShoot = true;
     }
 }

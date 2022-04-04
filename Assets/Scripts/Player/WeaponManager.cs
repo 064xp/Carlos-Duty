@@ -27,6 +27,14 @@ public class WeaponManager : MonoBehaviour
             if (i == selectedWeaponIndex) {
                 weapon.gameObject.SetActive(true);
                 selectedWeapon = weapon.GetComponent<Weapon>();
+                selectedWeapon.UsedByAI = false;
+
+                //// ===== on pickup
+                // Enable animator
+                weapon.gameObject.GetComponent<Animator>().enabled = true;
+                // disable collider
+                weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
+                // call pickup method on weapon
                 hudManager.SetAmmo(selectedWeapon.MagazineAmmo, selectedWeapon.Ammo);
             } else {
                 weapon.gameObject.SetActive(false);
