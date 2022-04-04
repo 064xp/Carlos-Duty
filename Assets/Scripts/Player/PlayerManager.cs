@@ -8,13 +8,11 @@ public class PlayerManager : Damagable {
     [SerializeField]
     private MouseLook mouseLook;
     [SerializeField]
-    private GameObject weaponHolder;
     private WeaponManager weaponManager;
 
 
     private void Start() {
         hudManager = GameObject.Find("HUDManager").GetComponent<HUDManager>();
-        weaponManager = weaponHolder.GetComponent<WeaponManager>();
     }
 
     public override void TakeDamage(int damage) {
@@ -42,15 +40,7 @@ public class PlayerManager : Damagable {
 
     private void OnTriggerStay(Collider other) {
        if(other.gameObject.CompareTag("Weapon")) {
-
-            other.transform.localPosition = Vector3.zero;
-            other.transform.localRotation = Quaternion.Euler(Vector3.zero);
-            other.transform.position = weaponHolder.transform.position;
-            other.transform.rotation = weaponHolder.transform.rotation;
-
-            other.transform.gameObject.SetActive(false);
-
-            other.transform.SetParent(weaponHolder.transform);
+            weaponManager.PickupWeapon(other.gameObject);
         }
     }
 

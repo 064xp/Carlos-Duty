@@ -16,6 +16,10 @@ public class HUDManager : MonoBehaviour
         ammoText.SetText($"{magAmmo} / {totalAmmo}");
     }
 
+    public void SetNoWeaponAmmo() {
+        ammoText.SetText("");
+    }
+
     public void OnGameOver(string reason) {
         gameOverPanel.SetActive(true);
         gameOverReasonText.SetText(reason);

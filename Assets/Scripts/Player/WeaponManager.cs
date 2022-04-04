@@ -41,6 +41,10 @@ public class WeaponManager : MonoBehaviour
             }
             i++;
         }
+
+        if(transform.childCount == 0) {
+            hudManager.SetNoWeaponAmmo();
+        }
     }
 
     public void SwitchWeapon(int weaponIndex) {
@@ -72,4 +76,40 @@ public class WeaponManager : MonoBehaviour
         SelectWeapon();
     }
 
+    public void PickupWeapon(GameObject gameObject) {
+        Weapon weapon = gameObject.GetComponent<Weapon>();
+        Weapon equippedWeapon = FindEquippedWeapon(weapon);
+
+        // If weapon is already equipped
+        if (equippedWeapon != null) {
+            if(equippedWeapon.Ammo < equippedWeapon.Settings.startAmmo) {
+                equippedWeapon.Ammo = equippedWeapon.Ammo + weapon.Ammo;
+                if (equippedWeapon.Ammo > equippedWeapon.Settings.startAmmo) equippedWeapon.Ammo = equippedWeapon.Settings.startAmmo;
+
+                Destroy(gameObject);
+            }
+        } else {
+            gameObject.transform.localPosition = Vector3.zero;
+            gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            gameObject.transform.position = transform.position;
+            gameObject.transform.rotation = transform.rotation;
+
+            if (transform.childCount > 0)
+                gameObject.transform.gameObject.SetActive(false);
+
+            gameObject.transform.SetParent(transform);
+        }
+
+        SelectWeapon();
+    }
+
+    Weapon FindEquippedWeapon(Weapon weapon) {
+        foreach(Transform gun in transform) {
+            Weapon currentWeapon = gun.gameObject.GetComponent<Weapon>();
+            if (currentWeapon.GetName() == weapon.GetName()) {
+                return currentWeapon;
+            }
+        }
+        return null;
+    }
 }

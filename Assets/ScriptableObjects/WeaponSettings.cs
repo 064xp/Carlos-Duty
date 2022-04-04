@@ -17,6 +17,7 @@ public class WeaponSettings : ScriptableObject {
     public float ADSFov = 45f;
     public int startAmmo;
     public int clipSize;
+    public string weaponName;
     public ParticleSystem muzzleFlash;
     public ParticleSystem impactEffect;
     public SimpleAudioEvent shootAudioEvent;

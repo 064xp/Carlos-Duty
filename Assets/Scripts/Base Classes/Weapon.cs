@@ -13,4 +13,8 @@ public class Weapon : MonoBehaviour {
         canShoot = true;
     }
 
+    virtual public string GetName() {
+        return "NO_NAME_SET";
+    }
+
 }

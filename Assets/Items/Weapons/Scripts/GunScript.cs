@@ -182,4 +182,8 @@ public class GunScript : Weapon
             yield return null;
         }
     }
+
+    override public string GetName(){
+        return Settings.weaponName;
+    }
 }
