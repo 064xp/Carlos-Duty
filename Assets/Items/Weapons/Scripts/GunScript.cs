@@ -31,7 +31,8 @@ public class GunScript : Weapon
 
     private void OnDisable() {
         animator.SetBool("IsADS", false);
-        crosshair.SetActive(true);
+        if(crosshair != null)
+            crosshair.SetActive(true);
     }
 
     // Start is called before the first frame update
@@ -104,6 +105,11 @@ public class GunScript : Weapon
     }
 
     public void Shoot() {
+        Transform raycastOrigin = UsedByAI ?  muzzleFlashPos : fpsCam.transform;
+        Shoot(raycastOrigin);
+    }
+
+    public void Shoot(Transform raycastOrigin) {
         if (Time.time < nextTimeToFire || isReloading) return;
         nextTimeToFire = Time.time + 1 / Settings.fireRate;
 
@@ -113,7 +119,6 @@ public class GunScript : Weapon
         muzzleFlash.Play();
         Settings.shootAudioEvent.Play(audioSource);
 
-        Transform raycastOrigin = UsedByAI ?  muzzleFlashPos : fpsCam.transform;
 
         if(Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, Settings.range)) {
             if (!UsedByAI && hit.transform.gameObject.CompareTag("Player")) return;

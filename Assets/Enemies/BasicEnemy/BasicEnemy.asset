@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b96c6bc0243852498082030934fc374, type: 3}
+  m_Name: BasicEnemy
+  m_EditorClassIdentifier: 
+  health: 100
+  enemyPrefab: {fileID: 1922824820905800118, guid: 0577569adcefc6c4fa5cc6f55eff8db1, type: 3}
+  gunPrefab: {fileID: 2758969366921360934, guid: 55af9e8fd63215d4a848e685729879eb, type: 3}
+  firingPattern: {fileID: 11400000, guid: 97a26fd27a54386448c90f7cca0bd2ef, type: 2}
+  updateFrequency: 4
+  shootDistance: 25
