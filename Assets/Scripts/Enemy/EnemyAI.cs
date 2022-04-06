@@ -17,12 +17,9 @@ public class EnemyAI : Damagable
     private NavMeshAgent agent;
     [SerializeField]
     private States state = States.GoToTarget;
-    [SerializeField]
-    private Transform navigationnTarget;
-    [SerializeField]
-    private Transform shootingTarget;
-    [SerializeField]
-    private Transform player;
+    public Vector3 navigationTarget;
+    public Transform shootingTarget;
+    public Transform player;
     [SerializeField]
     private Transform gunContainer;
     private GunScript gun;
@@ -89,8 +86,8 @@ public class EnemyAI : Damagable
     }
 
     private void GoToTarget() {
-        if(agent.destination != navigationnTarget.position)
-            agent.SetDestination(navigationnTarget.position);
+        if(agent.destination != navigationTarget)
+            agent.SetDestination(navigationTarget);
 
         if(directionToPlayer.magnitude <= enemySettings.shootDistance && inSight) {
             agent.ResetPath();
@@ -135,7 +132,6 @@ public class EnemyAI : Damagable
             enemySettings.firingPattern.cooldownTime.minValue,
             enemySettings.firingPattern.cooldownTime.maxValue
         );
-        print($"On cooldown for {cooldownTime}");
 
         yield return new WaitForSeconds(cooldownTime);
 
@@ -145,7 +141,6 @@ public class EnemyAI : Damagable
             enemySettings.firingPattern.fireTime.maxValue
         );
 
-        print($"Firing for {fireTime}");
         fireUntil = Time.time + fireTime;
     }
 

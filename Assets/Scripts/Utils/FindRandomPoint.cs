@@ -10,12 +10,17 @@ public class FindRandomPoint {
     List<Vector3> EdgeVectors = new List<Vector3>();
     GameObject plane;
 
+    public FindRandomPoint() {}
+
     public FindRandomPoint(GameObject plane) {
+        SetPlane(plane);
+    }
+
+    public void SetPlane(GameObject plane) {
         this.plane = plane;
         VerticeList = new List<Vector3>(plane.GetComponent<MeshFilter>().sharedMesh.vertices); //get vertice points from the mesh of the object
         CalculateCornerPoints();
     }
-
 
     public void RecalculateTransform() {
         VerticeList = new List<Vector3>(plane.GetComponent<MeshFilter>().sharedMesh.vertices); //get vertice points from the mesh of the object
@@ -45,7 +50,7 @@ public class FindRandomPoint {
 
         return Corners[randomCornerIdx] + u * EdgeVectors[0] + v * EdgeVectors[1];
     }
-    public void CalculateCornerPoints() {
+    void CalculateCornerPoints() {
         Corners.Clear(); //in case of transform changes corner points are reset
 
         Corners.Add(plane.transform.TransformPoint(VerticeList[0])); //corner points are added to show  on the editor
