@@ -23,6 +23,9 @@ public class GunScript : Weapon
     private bool wasADS;
     private float originalCamFOV;
     public Transform muzzleFlashPos;
+    [SerializeField]
+    private float heat = 0.0f;
+    private float startCooldownAfter = 0f;
 
     private void OnEnable() {
         animator.CrossFadeInFixedTime("Draw", 0f, 0);
@@ -71,6 +74,7 @@ public class GunScript : Weapon
     // Update is called once per frame
     void Update()
     {
+        CoolDown();
         if (isReloading || !canShoot) return;
 
         // Check if need to reload
@@ -104,6 +108,14 @@ public class GunScript : Weapon
         }
     }
 
+    void CoolDown() {
+        if (Time.time < startCooldownAfter) return;
+        if(heat > 0.0f) {
+            heat -= Settings.cooldownRate;
+            if (heat < 0f) heat = 0f;
+        }
+    }
+
     public void Shoot() {
         Transform raycastOrigin = UsedByAI ?  muzzleFlashPos : fpsCam.transform;
         Shoot(raycastOrigin);
@@ -119,22 +131,37 @@ public class GunScript : Weapon
         muzzleFlash.Play();
         Settings.shootAudioEvent.Play(audioSource);
 
-
-        if(Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, Settings.range)) {
+        Vector3 raycastDirection = ApplyInaccuracy(raycastOrigin.forward, Settings.pitchRange, Settings.yawRange, true);
+        if(Physics.Raycast(raycastOrigin.position, raycastDirection, out hit, Settings.range)) {
             if (!UsedByAI && hit.transform.gameObject.CompareTag("Player")) return;
 
             hit.transform.gameObject.SendMessage("TakeDamage", Settings.damage, SendMessageOptions.DontRequireReceiver);
             print(hit.transform.name);
+
+            // Impact effect
+            GameObject impactObject = Instantiate(Settings.impactEffect, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
+            Destroy(impactObject, 2f);
         }
 
-        // Impact effect
-        GameObject impactObject = Instantiate(Settings.impactEffect, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
-        Destroy(impactObject, 2f);
 
         MagazineAmmo--;
+        heat = Mathf.Clamp(heat + 1, 0, Settings.maxHeat);
+        startCooldownAfter = Time.time + Settings.cooldownAfterShooting;
+        
 
         if(!UsedByAI)
             hud.SetAmmo(MagazineAmmo, Ammo);
+    }
+
+    Vector3 ApplyInaccuracy(Vector3 direction, RangedFloat pitchRange, RangedFloat yawRange, bool useHeat = false) {
+        float pitch = Random.Range(pitchRange.minValue, pitchRange.maxValue);
+        float yaw = Random.Range(yawRange.minValue, yawRange.maxValue);
+        Vector3 modVector = new Vector3(yaw, pitch, 0f);
+        if (useHeat) {
+            modVector *= heat / Settings.maxHeat;
+        }
+
+        return (direction + modVector).normalized;
     }
 
     void StartReload() {

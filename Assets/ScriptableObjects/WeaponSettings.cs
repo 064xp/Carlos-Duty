@@ -18,6 +18,11 @@ public class WeaponSettings : ScriptableObject {
     public int startAmmo;
     public int clipSize;
     public string weaponName;
+    public RangedFloat pitchRange;
+    public RangedFloat yawRange;
+    public int maxHeat;
+    public float cooldownRate;
+    public float cooldownAfterShooting = 0.2f;
     public ParticleSystem muzzleFlash;
     public ParticleSystem impactEffect;
     public SimpleAudioEvent shootAudioEvent;
