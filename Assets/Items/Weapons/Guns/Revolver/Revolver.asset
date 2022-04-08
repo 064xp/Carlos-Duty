@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cad93d5573c193479a6fea1b71005d5, type: 3}
+  m_Name: Revolver
+  m_EditorClassIdentifier: 
+  fireMode: 0
+  damage: 35
+  range: 1000
+  fireRate: 8
+  reloadTime: 2
+  drawTime: 0.8
+  ADSTime: 0.2
+  ADSFov: 37
+  startAmmo: 60
+  clipSize: 6
+  weaponName: Revolver
+  pitchRange:
+    minValue: 0.01
+    maxValue: 0.06
+  yawRange:
+    minValue: 0
+    maxValue: 0.02
+  maxHeat: 10
+  cooldownRate: 0.07
+  cooldownAfterShooting: 0.2
+  muzzleFlash: {fileID: 2250592191149763084, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
+  impactEffect: {fileID: 19800004, guid: 0438351a6e6422d43a09930e9be00ee9, type: 3}
+  shootAudioEvent: {fileID: 11400000, guid: 1f9b8a911798f894197aab049f03b45b, type: 2}
+  reloadAudioEvent: {fileID: 11400000, guid: 6503959c2be5e3e4d9e188f219dd5df2, type: 2}
