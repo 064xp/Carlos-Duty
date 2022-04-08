@@ -10,7 +10,6 @@ public class GunScript : Weapon
     private delegate bool FireInputMethod(string name) ;
     private FireInputMethod inputMethod;
     [SerializeField]
-    private Animator animator;
     private ParticleSystem muzzleFlash;
     [SerializeField]
     private AudioSource audioSource;
@@ -108,6 +107,7 @@ public class GunScript : Weapon
         }
     }
 
+
     void CoolDown() {
         if (Time.time < startCooldownAfter) return;
         if(heat > 0.0f) {
@@ -124,6 +124,8 @@ public class GunScript : Weapon
     public void Shoot(Transform raycastOrigin) {
         if (Time.time < nextTimeToFire || isReloading) return;
         nextTimeToFire = Time.time + 1 / Settings.fireRate;
+
+        animator.SetBool("IsRunning", false);
 
         RaycastHit hit;
 
@@ -165,10 +167,12 @@ public class GunScript : Weapon
     }
 
     void StartReload() {
-        if (Ammo == 0 || MagazineAmmo == Settings.clipSize) return;
+        bool isRunning = animator.GetBool("IsRunning");
+        if (Ammo == 0 || MagazineAmmo == Settings.clipSize || isRunning) return;
 
         Settings.reloadAudioEvent.Play(audioSource);
         isReloading = true;
+        animator.SetLayerWeight(1, 0);
         animator.SetTrigger("Reload");
         wasADS = animator.GetBool("IsADS");
         if (wasADS) StartCoroutine(LerpFOVTo(originalCamFOV));
@@ -178,6 +182,7 @@ public class GunScript : Weapon
     public void EndReload() {
         if (wasADS) {
             animator.SetBool("IsADS", true);
+            animator.SetLayerWeight(1, 1);
             StartCoroutine(LerpFOVTo(Settings.ADSFov));
         }
 
@@ -196,11 +201,18 @@ public class GunScript : Weapon
 
     void ADS() {
         bool isADS = animator.GetBool("IsADS");
+        bool isRunning = animator.GetBool("IsRunning");
+        if (isRunning) return;
+
         float newFov = isADS ? originalCamFOV : Settings.ADSFov;
+
+        if (isADS) animator.SetLayerWeight(1, 0);
+        else animator.SetLayerWeight(1, 1);
 
         crosshair.SetActive(isADS);
         StartCoroutine(LerpFOVTo(newFov));
         animator.SetBool("IsADS", !isADS);
+        animator.SetBool("IsRunning", false);
     }
 
     IEnumerator LerpFOVTo(float value) {
@@ -216,5 +228,10 @@ public class GunScript : Weapon
 
     override public string GetName(){
         return Settings.weaponName;
+    }
+
+    override public bool CanRun() {
+        bool isADS = animator.GetBool("IsADS");
+        return !isADS && !isReloading;
     }
 }

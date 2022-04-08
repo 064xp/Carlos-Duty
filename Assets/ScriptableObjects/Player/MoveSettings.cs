@@ -5,6 +5,9 @@ public class MoveSettings : ScriptableObject {
     public float speed { get { return _speed; } private set { _speed = value; } }
     [SerializeField] private float _speed = 5.0f;
 
+    public float runSpeed { get { return _runSpeed; } private set { _runSpeed = value; } }
+    [SerializeField] private float _runSpeed = 18.0f;
+
     public float jumpForce { get { return _jumpForce; } private set { _jumpForce = value; } }
     [SerializeField] private float _jumpForce = 13.0f;
 

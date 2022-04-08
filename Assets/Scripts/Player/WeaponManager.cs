@@ -114,4 +114,8 @@ public class WeaponManager : MonoBehaviour
         }
         return null;
     }
+
+    public int GetWeaponCount() {
+        return transform.childCount;
+    }
 }

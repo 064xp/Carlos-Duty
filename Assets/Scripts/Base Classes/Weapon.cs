@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
     public WeaponSettings Settings;
+    public Animator animator;
     public bool UsedByAI = false;
     public bool canShoot = false;
     public int Ammo;
@@ -18,4 +19,6 @@ public class Weapon : MonoBehaviour {
     }
 
     virtual public void OnPickup() { }
+
+    virtual public bool CanRun() { return true;  }
 }

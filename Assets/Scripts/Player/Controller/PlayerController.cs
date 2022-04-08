@@ -40,6 +40,23 @@ public class PlayerController : MonoBehaviour
 
     private void Movement() {
         Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        bool isRunning = Input.GetButton("Run");
+        float speed = settings.speed;
+        bool canRun = true;
+
+        // Running animation
+        if(weaponManager.GetWeaponCount() > 0) {
+            canRun = weaponManager.selectedWeapon.CanRun();
+            if(canRun && isRunning)
+                weaponManager.selectedWeapon.animator.SetBool("IsRunning", true);
+            else 
+                weaponManager.selectedWeapon.animator.SetBool("IsRunning", false);
+        }
+
+        // Run speed
+        if (isRunning && canRun) {
+            speed = settings.runSpeed; 
+        }
 
         if(controller.isGrounded && moveDirection.y < 0) {
             moveDirection.y = -2f;
@@ -50,8 +67,8 @@ public class PlayerController : MonoBehaviour
             input *= 0.777f;
         }
 
-        moveDirection.x = input.x * settings.speed;
-        moveDirection.z = input.y * settings.speed;
+        moveDirection.x = input.x * speed;
+        moveDirection.z = input.y * speed;
 
         //moveDirection.y = -settings.antiBump - settings.gravity * Time.deltaTime;
         moveDirection.y += settings.gravity * Time.deltaTime;

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SMG
   m_EditorClassIdentifier: 
   fireMode: 1
-  damage: 10
-  range: 100
-  fireRate: 8
+  damage: 25
+  range: 1000
+  fireRate: 9
   reloadTime: 1.5
   drawTime: 0.5
   ADSTime: 0.2
@@ -24,14 +24,14 @@ MonoBehaviour:
   clipSize: 30
   weaponName: SMG
   pitchRange:
-    minValue: 0.1
-    maxValue: 0.6
+    minValue: 0.01
+    maxValue: 0.06
   yawRange:
-    minValue: 0.1
-    maxValue: 0.2
+    minValue: 0
+    maxValue: 0.02
   maxHeat: 10
   cooldownRate: 0.07
-  cooldownAfterShooting: 0.5
+  cooldownAfterShooting: 0.2
   muzzleFlash: {fileID: 2250592191149763084, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
   impactEffect: {fileID: 19800004, guid: 0438351a6e6422d43a09930e9be00ee9, type: 3}
   shootAudioEvent: {fileID: 11400000, guid: 7e805163074c36b4dbd895b657aa9d01, type: 2}
