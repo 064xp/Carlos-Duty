@@ -9,4 +9,5 @@ public class Enemy : ScriptableObject {
     public int updateFrequency = 1;
     public float shootDistance = 25f;
     public float followDistance = 125f;
+    public float followMemoryTime = 6f;
 }

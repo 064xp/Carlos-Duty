@@ -26,8 +26,10 @@ public class EnemyAI : Damagable
     private GameObject equippedWeapon;
     [SerializeField]
     private Transform head;
+    private float followUntil = 0f;
 
     private Vector3 directionToPlayer;
+    [SerializeField]
     private bool inSight = false;
     private bool canShoot = true;
     private float fireUntil = 0f;
@@ -51,8 +53,8 @@ public class EnemyAI : Damagable
     void Update()
     {
         if (!alive) return;
-        //UpdateStates();
         CheckForPlayer();
+        UpdateStates();
     }
 
     private void UpdateStates() {
@@ -80,8 +82,9 @@ public class EnemyAI : Damagable
         directionToPlayer = player.position - head.position;
 
         inSight = IsPlayerInView();
-        if(inSight)
-            print($"Player in view {inSight}");
+        if (inSight) {
+            followUntil = Time.time + enemySettings.followMemoryTime;
+        }
     }
 
     bool IsPlayerInView() {
@@ -117,13 +120,15 @@ public class EnemyAI : Damagable
     }
 
     private void AttackPlayer() {
+        if (Time.time >= followUntil) state = States.GoToTarget;
+
         if (agent.destination != player.transform.position)
            agent.SetDestination(player.transform.position);
 
-        if(inSight) {
+        if (inSight && directionToPlayer.magnitude <= enemySettings.shootDistance) {
             LookAt(player);
             Shoot();
-        }
+        } 
     }
 
     private void AttackTarget() {
