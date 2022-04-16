@@ -13,6 +13,7 @@ public class PlayerManager : Damagable {
 
     private void Start() {
         hudManager = GameObject.Find("HUDManager").GetComponent<HUDManager>();
+        hudManager.SetHealth(health);
     }
 
     public override void TakeDamage(int damage) {

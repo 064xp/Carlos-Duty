@@ -8,4 +8,5 @@ public class Enemy : ScriptableObject {
     public FiringPattern firingPattern;
     public int updateFrequency = 1;
     public float shootDistance = 25f;
+    public float followDistance = 125f;
 }

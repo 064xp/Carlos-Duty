@@ -33,6 +33,7 @@ public class EnemyAI : Damagable
     private float fireUntil = 0f;
     public Enemy enemySettings;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +51,7 @@ public class EnemyAI : Damagable
     void Update()
     {
         if (!alive) return;
-        UpdateStates();
+        //UpdateStates();
         CheckForPlayer();
     }
 
@@ -76,13 +77,27 @@ public class EnemyAI : Damagable
     }
 
     void CheckForPlayer() {
-        directionToPlayer = player.position - transform.position;
+        directionToPlayer = player.position - head.position;
+
+        inSight = IsPlayerInView();
+        if(inSight)
+            print($"Player in view {inSight}");
+    }
+
+    bool IsPlayerInView() {
+        float directionAngle = Vector3.Angle(transform.forward, directionToPlayer.normalized);
+
+        if (directionToPlayer.magnitude > enemySettings.followDistance) return false;
+        if (directionAngle >= 180f / 2) return false;
 
         RaycastHit hit;
 
         if(Physics.Raycast(head.position, directionToPlayer.normalized, out hit)) {
-            inSight = hit.transform.CompareTag("Player");
+            if (hit.transform.CompareTag("Player"))
+                return true;
         }
+
+        return false;
     }
 
     private void GoToTarget() {

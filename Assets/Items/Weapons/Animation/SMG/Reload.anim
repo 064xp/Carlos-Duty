@@ -123,7 +123,6 @@ AnimationClip:
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         time: 0.46666667
         value: {x: 0, y: -0.241, z: -0.36}
         inSlope: {x: 0, y: 0, z: 0}
