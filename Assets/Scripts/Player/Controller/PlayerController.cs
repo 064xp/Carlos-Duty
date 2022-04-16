@@ -10,9 +10,16 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     [SerializeField]
     private WeaponManager weaponManager;
+    [SerializeField]
+    private float stamina;
+    private float replenishStaminaAfter = 0;
 
     private void Awake() {
         controller = GetComponent<CharacterController>();
+    }
+
+    private void Start() {
+        stamina = settings.stamina;
     }
 
     // Update is called once per frame
@@ -20,6 +27,7 @@ public class PlayerController : MonoBehaviour
     {
         Movement();    
         ManageInputs();
+        ReplenishStamina();
     }
 
     private void FixedUpdate() {
@@ -44,9 +52,11 @@ public class PlayerController : MonoBehaviour
         float speed = settings.speed;
         bool canRun = true;
 
+        if (stamina <= 0f) canRun = false;
+
         // Running animation
         if(weaponManager.GetWeaponCount() > 0) {
-            canRun = weaponManager.selectedWeapon.CanRun();
+            canRun = canRun && weaponManager.selectedWeapon.CanRun();
             if(canRun && isRunning)
                 weaponManager.selectedWeapon.animator.SetBool("IsRunning", true);
             else 
@@ -55,7 +65,10 @@ public class PlayerController : MonoBehaviour
 
         // Run speed
         if (isRunning && canRun) {
-            speed = settings.runSpeed; 
+            speed = settings.runSpeed;
+            stamina -= Time.deltaTime;
+            if (stamina < 0f) stamina = 0f;
+            replenishStaminaAfter = Time.time + settings.replenishStaminaTimeout;
         }
 
         if(controller.isGrounded && moveDirection.y < 0) {
@@ -84,5 +97,12 @@ public class PlayerController : MonoBehaviour
 
     private void Jump() {
         moveDirection.y =  Mathf.Sqrt(settings.jumpForce * -2f * settings.gravity);
+    }
+
+    private void ReplenishStamina() {
+        if(Time.time >= replenishStaminaAfter && stamina < settings.stamina) {
+            stamina += settings.staminaReplenishRate;
+            if (stamina > settings.stamina) stamina = settings.stamina;
+        }
     }
 }
