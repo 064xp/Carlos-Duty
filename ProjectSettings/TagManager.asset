@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Church
   - Weapon
+  - Powerup
   layers:
   - Default
   - TransparentFX

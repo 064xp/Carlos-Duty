@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69077fccb822c940a099cca784feaed, type: 3}
   m_Name: NormalMovementSetttings
   m_EditorClassIdentifier: 
-  speed: 5
-  runSpeed: 18
-  jumpForce: 13
+  speed: 10
+  runSpeed: 20
+  jumpForce: 1.5
   antiBump: 4.5
   gravity: -30
-  stamina: 10
-  replenishStaminaTimeout: 1.5
-  staminaReplenishRate: 0.3
+  stamina: 5
+  replenishStaminaTimeout: 0.7
+  staminaReplenishRate: 0.03

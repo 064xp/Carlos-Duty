@@ -2,23 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour {
+public class Weapon : Equipable {
     public WeaponSettings Settings;
-    public Animator animator;
     public bool UsedByAI = false;
     public bool canShoot = false;
     public int Ammo;
     public int MagazineAmmo;
+    protected HUDManager hud;
+
+    public Weapon() {
+        type = Types.Weapon;
+    }
 
     public void SetCanShootTrue() {
         canShoot = true;
     }
 
-    virtual public string GetName() {
-        return "NO_NAME_SET";
+    override public string GetName() {
+        return Settings.name;
+    }
+    override public void OnPickup() {
+        animator.enabled = true;
+        GetComponent<BoxCollider>().enabled = false;
+        hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();
+        UsedByAI = false;
     }
 
-    virtual public void OnPickup() { }
-
-    virtual public bool CanRun() { return true;  }
+    public override void OnEquip() {
+        hud.SetAmmo(MagazineAmmo, Ammo);
+    }
 }

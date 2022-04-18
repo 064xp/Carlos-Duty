@@ -14,7 +14,6 @@ public class GunScript : Weapon
     [SerializeField]
     private AudioSource audioSource;
     private GameObject crosshair;
-    private HUDManager hud;
 
     // Internal state
     private float nextTimeToFire = 0f;
@@ -65,10 +64,9 @@ public class GunScript : Weapon
     }
 
     override public void OnPickup() {
-        // On pickup
+        base.OnPickup();
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
         crosshair = GameObject.Find("Crosshair");
-        hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();
         originalCamFOV = fpsCam.fieldOfView;
     }
 
@@ -226,10 +224,6 @@ public class GunScript : Weapon
             fpsCam.fieldOfView = Mathf.Lerp(initialFOV, value, elapsedTime / Settings.ADSTime);
             yield return null;
         }
-    }
-
-    override public string GetName(){
-        return Settings.weaponName;
     }
 
     override public bool CanRun() {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    public Weapon selectedWeapon { get; private set; }
+    public Equipable EquipedItem { get; private set; }
     private int selectedWeaponIndex = 0;
     [SerializeField]
     private HUDManager hudManager;
@@ -23,21 +23,13 @@ public class WeaponManager : MonoBehaviour
         // Reset cam FOV when weapon switches
         fpsCamera.fieldOfView = initialCamFOV;
 
-        foreach(Transform weapon in transform) {
+        foreach(Transform item in transform) {
             if (i == selectedWeaponIndex) {
-                weapon.gameObject.SetActive(true);
-                selectedWeapon = weapon.GetComponent<Weapon>();
-                selectedWeapon.UsedByAI = false;
-
-                //// ===== on pickup
-                // Enable animator
-                weapon.gameObject.GetComponent<Animator>().enabled = true;
-                // disable collider
-                weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
-                // call pickup method on weapon
-                hudManager.SetAmmo(selectedWeapon.MagazineAmmo, selectedWeapon.Ammo);
+                item.gameObject.SetActive(true);
+                EquipedItem = item.GetComponent<Equipable>();
+                EquipedItem.OnEquip();
             } else {
-                weapon.gameObject.SetActive(false);
+                item.gameObject.SetActive(false);
             }
             i++;
         }

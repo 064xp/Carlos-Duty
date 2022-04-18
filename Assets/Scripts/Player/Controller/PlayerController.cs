@@ -56,11 +56,11 @@ public class PlayerController : MonoBehaviour
 
         // Running animation
         if(weaponManager.GetWeaponCount() > 0) {
-            canRun = canRun && weaponManager.selectedWeapon.CanRun();
+            canRun = canRun && weaponManager.EquipedItem.CanRun();
             if(canRun && isRunning)
-                weaponManager.selectedWeapon.animator.SetBool("IsRunning", true);
+                weaponManager.EquipedItem.animator.SetBool("IsRunning", true);
             else 
-                weaponManager.selectedWeapon.animator.SetBool("IsRunning", false);
+                weaponManager.EquipedItem.animator.SetBool("IsRunning", false);
         }
 
         // Run speed
