@@ -35,6 +35,8 @@ public class GunScript : Weapon
         animator.SetBool("IsADS", false);
         if(crosshair != null)
             crosshair.SetActive(true);
+        wasADS = false;
+        isReloading = false;
     }
 
     // Start is called before the first frame update
