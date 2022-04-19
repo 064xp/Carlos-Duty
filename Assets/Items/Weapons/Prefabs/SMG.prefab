@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5077214726505494199}
   m_Layer: 0
   m_Name: SMG
-  m_TagString: Weapon
+  m_TagString: Equipable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0686955199263498fc77f85676fda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Settings: {fileID: 11400000, guid: 042c2f23f907a9e49bbfcd1e0cb32675, type: 2}
   animator: {fileID: 2758969366921360929}
+  type: 0
+  Settings: {fileID: 11400000, guid: 042c2f23f907a9e49bbfcd1e0cb32675, type: 2}
   UsedByAI: 0
   canShoot: 0
   Ammo: 0

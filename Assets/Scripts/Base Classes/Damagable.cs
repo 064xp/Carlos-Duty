@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Damagable : MonoBehaviour {
     [SerializeField]
-    protected int health = 100;
+    public int health = 100;
     public bool alive { get; private set; } = true;
 
     public virtual void TakeDamage(int damage) {

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
+    
     public Equipable EquipedItem { get; private set; }
-    private int selectedWeaponIndex = 0;
+    [SerializeField]
+    private int selectedItemIndex = 0;
     [SerializeField]
     private HUDManager hudManager;
     [SerializeField]
@@ -17,14 +19,22 @@ public class WeaponManager : MonoBehaviour
         SelectWeapon();
     }
 
-    private void SelectWeapon() {
+    public void SelectWeapon() {
+        print($"Select weapon child count: {transform.childCount}");
         int i = 0;
+
+        if(transform.childCount == 0) {
+            hudManager.SetNoWeaponAmmo();
+            return;
+        }
+
+        if (selectedItemIndex >= transform.childCount) selectedItemIndex = transform.childCount - 1;
 
         // Reset cam FOV when weapon switches
         fpsCamera.fieldOfView = initialCamFOV;
 
         foreach(Transform item in transform) {
-            if (i == selectedWeaponIndex) {
+            if (i == selectedItemIndex) {
                 item.gameObject.SetActive(true);
                 EquipedItem = item.GetComponent<Equipable>();
                 EquipedItem.OnEquip();
@@ -33,53 +43,46 @@ public class WeaponManager : MonoBehaviour
             }
             i++;
         }
-
-        if(transform.childCount == 0) {
-            hudManager.SetNoWeaponAmmo();
-        }
     }
 
     public void SwitchWeapon(int weaponIndex) {
         if (weaponIndex > transform.childCount - 1) return;
 
-        selectedWeaponIndex = weaponIndex;
+        selectedItemIndex = weaponIndex;
         SelectWeapon();
     }
 
     public void SwitchToNextWeapon() {
-        if (transform.childCount < 1) return;
+        if (transform.childCount < 2) 
+            return;
 
-        if (selectedWeaponIndex >= transform.childCount - 1)
-            selectedWeaponIndex = 0;
+        if (selectedItemIndex == transform.childCount - 1)
+            selectedItemIndex = 0;
         else
-            selectedWeaponIndex++;
+            selectedItemIndex++;
 
         SelectWeapon();
     }
 
     public void SwitchToPreviousWeapon() {
-        if (transform.childCount < 1) return;
+        if (transform.childCount < 2) 
+            return;
 
-        if (selectedWeaponIndex <= 0)
-            selectedWeaponIndex = transform.childCount - 1;
+        if (selectedItemIndex <= 0)
+            selectedItemIndex = transform.childCount - 1;
         else
-            selectedWeaponIndex--;
+            selectedItemIndex--;
 
         SelectWeapon();
     }
 
     public void PickupWeapon(GameObject gameObject) {
-        Weapon weapon = gameObject.GetComponent<Weapon>();
-        Weapon equippedWeapon = FindEquippedWeapon(weapon);
+        Equipable equipable = gameObject.GetComponent<Equipable>();
+        Equipable equippedItem = FindEquipped(equipable);
 
         // If weapon is already equipped
-        if (equippedWeapon != null) {
-            if(equippedWeapon.Ammo < equippedWeapon.Settings.startAmmo) {
-                equippedWeapon.Ammo = equippedWeapon.Ammo + weapon.Ammo;
-                if (equippedWeapon.Ammo > equippedWeapon.Settings.startAmmo) equippedWeapon.Ammo = equippedWeapon.Settings.startAmmo;
-
-                Destroy(gameObject);
-            }
+        if (equippedItem != null) {
+            equippedItem.OnPickupEquipped(gameObject);
         } else {
             gameObject.transform.localPosition = Vector3.zero;
             gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -91,17 +94,53 @@ public class WeaponManager : MonoBehaviour
 
             gameObject.transform.SetParent(transform);
 
-            weapon.OnPickup();
+            equipable.OnPickup(this);
         }
 
         SelectWeapon();
     }
 
-    Weapon FindEquippedWeapon(Weapon weapon) {
-        foreach(Transform gun in transform) {
-            Weapon currentWeapon = gun.gameObject.GetComponent<Weapon>();
-            if (currentWeapon.GetName() == weapon.GetName()) {
-                return currentWeapon;
+    public void DropWeapon() {
+        if (transform.childCount == 0) return;
+
+        // If it returns a GameObject, drop that, otherwise,
+        // drop the currently selected item
+        GameObject gameObject = EquipedItem.OnDrop();
+        Transform selectedItem;
+
+        if (gameObject == null)
+            selectedItem = transform.GetChild(selectedItemIndex);
+        else
+            selectedItem = gameObject.transform;
+
+        selectedItem.SetParent(null);
+        RaycastHit hit;
+
+        float angle = Vector3.Angle(Vector3.down, transform.forward) - 30f;
+        Vector3 rayDir = Quaternion.AngleAxis(angle, transform.right) * transform.forward;
+
+        if(Physics.Raycast(transform.position, rayDir, out hit)) {
+            BoxCollider itemCollider = selectedItem.gameObject.GetComponent<BoxCollider>();
+            Vector3 newPos = hit.point;
+            newPos.y = itemCollider.bounds.size.y + 0.4f;
+
+            selectedItem.position = newPos;
+            selectedItem.rotation = Quaternion.Euler(transform.forward);
+            itemCollider.enabled = true;
+        }
+
+        SelectWeapon();
+    }
+
+    public void DestroyItem(GameObject gameObject) {
+        
+    }
+
+    Equipable FindEquipped(Equipable equipable) {
+        foreach(Transform item in transform) {
+            Equipable currentItem = item.gameObject.GetComponent<Equipable>();
+            if (currentItem.GetName() == equipable.GetName()) {
+                return currentItem;
             }
         }
         return null;

@@ -65,6 +65,7 @@ public class GunScript : Weapon
 
     override public void OnPickup() {
         base.OnPickup();
+        animator.CrossFadeInFixedTime("Draw", 0f, 0);
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
         crosshair = GameObject.Find("Crosshair");
         originalCamFOV = fpsCam.fieldOfView;

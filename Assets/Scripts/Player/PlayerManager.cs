@@ -9,11 +9,14 @@ public class PlayerManager : Damagable {
     private MouseLook mouseLook;
     [SerializeField]
     private WeaponManager weaponManager;
+    [HideInInspector]
+    public int maxHealth { get; private set; } = 100;
 
 
     private void Start() {
         hudManager = GameObject.Find("HUDManager").GetComponent<HUDManager>();
         hudManager.SetHealth(health);
+        maxHealth = health;
     }
 
     public override void TakeDamage(int damage) {
@@ -39,8 +42,15 @@ public class PlayerManager : Damagable {
 
     }
 
+    public void SetHealth(int newHealth) {
+        if (newHealth > maxHealth) health = maxHealth;
+        else if (newHealth < 0) health = 0;
+        else health = newHealth;
+        hudManager.SetHealth(health, maxHealth);
+    }
+
     private void OnTriggerStay(Collider other) {
-       if(other.gameObject.CompareTag("Weapon")) {
+       if(other.gameObject.CompareTag("Equipable")) {
             weaponManager.PickupWeapon(other.gameObject);
         }
     }

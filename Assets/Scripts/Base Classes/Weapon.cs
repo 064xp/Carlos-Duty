@@ -28,7 +28,22 @@ public class Weapon : Equipable {
         UsedByAI = false;
     }
 
-    public override void OnEquip() {
+    override public void OnEquip() {
         hud.SetAmmo(MagazineAmmo, Ammo);
+    }
+
+    public override GameObject OnDrop() {
+        UsedByAI = true;
+        return null;
+    }
+
+    override public void OnPickupEquipped(GameObject gameObject) {
+        Weapon weapon = gameObject.GetComponent<Weapon>();
+        if(Ammo < Settings.startAmmo) {
+            Ammo += weapon.Ammo;
+            if (Ammo > Settings.startAmmo) Ammo = Settings.startAmmo;
+
+            Destroy(gameObject);
+        }
     }
 }

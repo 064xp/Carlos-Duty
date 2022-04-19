@@ -42,7 +42,11 @@ public class PlayerController : MonoBehaviour
 
         // Scroll wheel down
         if(Input.GetAxis("Mouse ScrollWheel") < 0f) {
-            weaponManager.SwitchToNextWeapon();
+            weaponManager.SwitchToPreviousWeapon();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            weaponManager.DropWeapon();
         }
     }
 

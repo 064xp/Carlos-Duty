@@ -20,6 +20,10 @@ public class HUDManager : MonoBehaviour
         ammoText.SetText("");
     }
 
+    public void SetEquipableAmount(int amount) {
+        ammoText.SetText($"{amount}");
+    }
+
     public void OnGameOver(string reason) {
         gameOverPanel.SetActive(true);
         gameOverReasonText.SetText(reason);
