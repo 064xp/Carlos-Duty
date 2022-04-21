@@ -20,7 +20,6 @@ public class WeaponManager : MonoBehaviour
     }
 
     public void SelectWeapon() {
-        print($"Select weapon child count: {transform.childCount}");
         int i = 0;
 
         if(transform.childCount == 0) {

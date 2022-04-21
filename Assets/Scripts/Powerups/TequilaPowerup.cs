@@ -5,11 +5,20 @@ using UnityEngine;
 public class TequilaPowerup : Powerup
 {
     public int healthRegen = 50;
-    bool isDrinking = false;
+    public float drunkEffectAmount = 0.5f;
+    private bool isDrinking = false;
+    [SerializeField]
+    private DrunkEffect drunkEffect;
+
     private void OnEnable() {
         animator.CrossFadeInFixedTime("Draw", 0f, 0);
         canUse = false;
         isDrinking = false;
+    }
+
+    public override void OnPickup() {
+        base.OnPickup();
+        //drunkEffect = GameObject.Find("DrunkEffect").GetComponent<DrunkEffect>();
     }
 
     // Start is called before the first frame update
@@ -40,6 +49,7 @@ public class TequilaPowerup : Powerup
         isDrinking = false;
 
         amount--;
+        drunkEffect.ApplyEffect(drunkEffectAmount);
         if(amount <= 0) {
             //weaponManager.DropWeapon();
             transform.SetParent(null);
