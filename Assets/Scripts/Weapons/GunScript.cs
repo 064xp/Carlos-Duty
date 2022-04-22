@@ -11,7 +11,7 @@ public class GunScript : Weapon
     private FireInputMethod inputMethod;
     [SerializeField]
     private ParticleSystem muzzleFlash;
-    [SerializeField]
+    //[SerializeField]
     private AudioSource audioSource;
     private GameObject crosshair;
 
@@ -41,6 +41,7 @@ public class GunScript : Weapon
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator.keepAnimatorControllerStateOnDisable = true;
         // Initialize variables
         Ammo = Settings.startAmmo;
