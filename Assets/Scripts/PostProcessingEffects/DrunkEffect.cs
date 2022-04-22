@@ -46,9 +46,7 @@ public class DrunkEffect : MonoBehaviour
         QueuedEffect queuedEffect = new QueuedEffect(weight, incrementSpeed);
 
         queue.Enqueue(queuedEffect);
-        print($"Enqueuing, count: {queue.Count} time {Time.time}");
         if (queue.Count > 1) {
-            print($"Count {queue.Count} queued {weight} current item {queue.Peek()}");
             yield break;
         }
 
@@ -56,14 +54,11 @@ public class DrunkEffect : MonoBehaviour
             QueuedEffect currentEffect = queue.Peek();
             float targetWeight = Mathf.Clamp01(volume.weight + currentEffect.weight);
             while(volume.weight < targetWeight) {
-                print($"Inside loop volume weight {volume.weight} target {targetWeight}");
                 volume.weight += currentEffect.speed;
-                //volume.weight = Mathf.Clamp01(volume.weight + currentEffect.speed);
                 yield return null;
             }
             queue.Dequeue();
             decayAfter = Time.time + startDecayDelay;
-            print($"dequeuing  Time {Time.time} decayAfter {decayAfter}");
         }
     }
 

@@ -311,6 +311,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chinese SMG
       objectReference: {fileID: 0}
+    - target: {fileID: 4252461590065344, guid: b06197d36bf67004ba0c2d94b775911a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252461590065344, guid: b06197d36bf67004ba0c2d94b775911a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.39999983
+      objectReference: {fileID: 0}
     - target: {fileID: 4493699341138758, guid: b06197d36bf67004ba0c2d94b775911a, type: 3}
       propertyPath: m_RootOrder
       value: 1
