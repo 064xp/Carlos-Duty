@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireTime:
     minValue: 0.3
-    maxValue: 2
+    maxValue: 0.6
   cooldownTime:
-    minValue: 0.4
+    minValue: 0.5
     maxValue: 1.4
   inaccuracy:
     minValue: 0

@@ -27,5 +27,4 @@ public class WeaponSettings : ScriptableObject {
     public ParticleSystem impactEffect;
     public SimpleAudioEvent shootAudioEvent;
     public SimpleAudioEvent reloadAudioEvent;
-
 }

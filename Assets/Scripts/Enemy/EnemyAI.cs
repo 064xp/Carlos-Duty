@@ -40,8 +40,11 @@ public class EnemyAI : Damagable
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        equippedWeapon = Instantiate(enemySettings.gunPrefab, gunContainer);
+        GameObject enemyWeapon = Instantiate(enemySettings.gunPrefab, gunContainer);
+        equippedWeapon = enemyWeapon.transform.GetChild(0).gameObject;
+        // Enemy weapon variants are contained within an empty container
         gun = equippedWeapon.GetComponent<GunScript>();
+        //gun = equippedWeapon.GetComponent<GunScript>();
         gun.UsedByAI = true;
         equippedWeapon.GetComponent<Animator>().enabled = true;
         equippedWeapon.GetComponent<BoxCollider>().enabled = false;
@@ -143,7 +146,12 @@ public class EnemyAI : Damagable
             StartCoroutine(ShootingCooldown());
         }
 
-        gun.Shoot(head);
+        float inaccuracy = Random.Range(
+            enemySettings.firingPattern.inaccuracy.minValue,
+            enemySettings.firingPattern.inaccuracy.maxValue
+        );
+
+        gun.Shoot(head.position, player.position - head.position, inaccuracy);
     }
 
     IEnumerator ShootingCooldown() {
@@ -167,7 +175,6 @@ public class EnemyAI : Damagable
     public override void Die() {
         // play death animation
 
-        // Drop weapon
         agent.ResetPath();
 
         RaycastHit hit;
@@ -178,6 +185,8 @@ public class EnemyAI : Damagable
             Vector3 newPos = hit.point;
             newPos.y += 1.0f;
             equippedWeapon.transform.position = newPos;
+            equippedWeapon.transform.localScale = new Vector3(1, 1, 1);
+            equippedWeapon.transform.rotation = Quaternion.Euler(0, 0, 0);
             equippedWeapon.GetComponent<BoxCollider>().enabled = true;
             equippedWeapon.GetComponent<Animator>().enabled = false ;
         }
@@ -186,9 +195,9 @@ public class EnemyAI : Damagable
     }
 
     // Utility functions
-
     private void LookAt(Transform target) {
-        Vector3 lookDirection = target.position - transform.position;
+        Vector3 lookDirection = target.position - head.position;
+        lookDirection.y = 0f;
 
         Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
         transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * agent.angularSpeed);

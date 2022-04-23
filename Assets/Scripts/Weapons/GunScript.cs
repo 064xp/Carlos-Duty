@@ -120,10 +120,14 @@ public class GunScript : Weapon
 
     public void Shoot() {
         Transform raycastOrigin = UsedByAI ?  muzzleFlashPos : fpsCam.transform;
-        Shoot(raycastOrigin);
+        Shoot(raycastOrigin.position, raycastOrigin.forward, 0f);
     }
 
-    public void Shoot(Transform raycastOrigin) {
+    //private void OnDrawGizmos() {
+    //    Debug.DrawRay(shootRay.origin, shootRay.direction, Color.blue);
+    //}
+
+    public void Shoot(Vector3 raycastOrigin, Vector3 rayCastDirection, float inaccuracy) {
         if (Time.time < nextTimeToFire || isReloading) return;
         nextTimeToFire = Time.time + 1 / Settings.fireRate;
 
@@ -135,8 +139,14 @@ public class GunScript : Weapon
         muzzleFlash.Play();
         Settings.shootAudioEvent.Play(audioSource);
 
-        Vector3 raycastDirection = ApplyInaccuracy(raycastOrigin.forward, Settings.pitchRange, Settings.yawRange, true);
-        if(Physics.Raycast(raycastOrigin.position, raycastDirection, out hit, Settings.range)) {
+        rayCastDirection = ApplyInaccuracy(rayCastDirection, Settings.pitchRange, Settings.yawRange, true);
+
+        if(inaccuracy != 0f) {
+            rayCastDirection = ApplyInaccuracy(rayCastDirection, inaccuracy);
+        }
+
+        Debug.DrawRay(raycastOrigin, rayCastDirection * 5, Color.cyan, 5);
+        if(Physics.Raycast(raycastOrigin, rayCastDirection, out hit, Settings.range)) {
             if (!UsedByAI && hit.transform.gameObject.CompareTag("Player")) return;
 
             hit.transform.gameObject.SendMessage("TakeDamage", Settings.damage, SendMessageOptions.DontRequireReceiver);
@@ -155,6 +165,11 @@ public class GunScript : Weapon
 
         if(!UsedByAI)
             hud.SetAmmo(MagazineAmmo, Ammo);
+    }
+
+    Vector3 ApplyInaccuracy(Vector3 direction, float inaccuracy) {
+        Vector3 modVector = new Vector3(inaccuracy, inaccuracy, inaccuracy);
+        return (direction + modVector);
     }
 
     Vector3 ApplyInaccuracy(Vector3 direction, RangedFloat pitchRange, RangedFloat yawRange, bool useHeat = false) {
