@@ -190,7 +190,8 @@ public class GunScript : Weapon
         Settings.reloadAudioEvent.Play(audioSource);
         isReloading = true;
         animator.SetLayerWeight(1, 0);
-        animator.SetTrigger("Reload");
+        if(!UsedByAI)
+            animator.SetTrigger("Reload");
         wasADS = animator.GetBool("IsADS");
         if (wasADS) StartCoroutine(LerpFOVTo(originalCamFOV));
         animator.SetBool("IsADS", false);

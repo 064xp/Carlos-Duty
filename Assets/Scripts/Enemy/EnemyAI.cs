@@ -27,6 +27,8 @@ public class EnemyAI : Damagable
     [SerializeField]
     private Transform head;
     private float followUntil = 0f;
+    [SerializeField]
+    private Animator animator;
 
     private Vector3 directionToPlayer;
     [SerializeField]
@@ -107,6 +109,7 @@ public class EnemyAI : Damagable
     }
 
     private void GoToTarget() {
+        animator.SetBool("IsWalking", true);
         if(agent.destination != navigationTarget)
             agent.SetDestination(navigationTarget);
 
@@ -117,6 +120,7 @@ public class EnemyAI : Damagable
         }
 
         if (HasReached()) {
+            animator.SetBool("IsWalking", false);
             state = States.AttackTarget;
             print("Attack target state");
         }
@@ -151,6 +155,7 @@ public class EnemyAI : Damagable
             enemySettings.firingPattern.inaccuracy.maxValue
         );
 
+        animator.SetTrigger("Shoot");
         gun.Shoot(head.position, player.position - head.position, inaccuracy);
     }
 
@@ -173,8 +178,7 @@ public class EnemyAI : Damagable
     }
 
     public override void Die() {
-        // play death animation
-
+        animator.SetBool("IsDead", true);
         agent.ResetPath();
 
         RaycastHit hit;
@@ -191,7 +195,7 @@ public class EnemyAI : Damagable
             equippedWeapon.GetComponent<Animator>().enabled = false ;
         }
 
-        Destroy(this.gameObject, 1);
+        Destroy(this.gameObject, 3f);
     }
 
     // Utility functions

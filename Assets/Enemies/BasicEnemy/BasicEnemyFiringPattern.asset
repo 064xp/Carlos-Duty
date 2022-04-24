@@ -20,4 +20,4 @@ MonoBehaviour:
     maxValue: 1.4
   inaccuracy:
     minValue: 0
-    maxValue: 0.8
+    maxValue: 0.3
