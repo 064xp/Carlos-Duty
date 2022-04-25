@@ -39,6 +39,11 @@ public class TequilaPowerup : Powerup
        }
     }
 
+    public override void OnEquip() {
+        base.OnEquip();
+        hud.SetAmmoType(HUDManager.AmmoTypes.Bottle);
+    }
+
     private void StartDrink() {
         animator.SetTrigger("Drink");
         isDrinking = true;

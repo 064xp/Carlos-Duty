@@ -42,6 +42,9 @@ public class HUDManager : MonoBehaviour
             case AmmoTypes.Bullets:
                 bulletsGraphic.SetActive(true);
                 break;
+            case AmmoTypes.Bottle:
+                bottleGraphic.SetActive(true);
+                break;
         }
     }
 
