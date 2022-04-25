@@ -8,20 +8,22 @@ public class Weapon : Equipable {
     public bool canShoot = false;
     public int Ammo;
     public int MagazineAmmo;
+    [SerializeField]
     protected HUDManager hud;
 
     public Weapon() {
         type = Types.Weapon;
     }
 
-    public void SetCanShootTrue() {
-        canShoot = true;
-    }
-
     override public string GetName() {
         return Settings.name;
     }
+
     override public void OnPickup() {
+        base.OnPickup();
+        //armsAnimator = GameObject.Find("Player/FPSArms").GetComponent<Animator>();
+        //print($"arms animator found weapon on pickup {armsAnimator}");
+        print($"OnPickup weapon");
         animator.enabled = true;
         GetComponent<BoxCollider>().enabled = false;
         hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();
@@ -30,6 +32,7 @@ public class Weapon : Equipable {
 
     override public void OnEquip() {
         hud.SetAmmo(MagazineAmmo, Ammo);
+        armsAnimator.SetInteger("WeaponID", Settings.weaponID);
     }
 
     public override GameObject OnDrop() {

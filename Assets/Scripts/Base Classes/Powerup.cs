@@ -21,6 +21,7 @@ public class Powerup : Equipable
     }
 
     override public void OnPickup(WeaponManager weaponManager) {
+        base.OnPickup();
         animator.enabled = true;
         GetComponent<BoxCollider>().enabled = false;
         hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();

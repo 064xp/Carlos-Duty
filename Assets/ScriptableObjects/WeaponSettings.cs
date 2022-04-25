@@ -18,6 +18,7 @@ public class WeaponSettings : ScriptableObject {
     public int startAmmo;
     public int clipSize;
     public string weaponName;
+    public int weaponID;
     public RangedFloat pitchRange;
     public RangedFloat yawRange;
     public int maxHeat;

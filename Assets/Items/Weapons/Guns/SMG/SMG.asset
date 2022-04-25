@@ -23,6 +23,7 @@ MonoBehaviour:
   startAmmo: 120
   clipSize: 30
   weaponName: SMG
+  weaponID: 2
   pitchRange:
     minValue: 0.01
     maxValue: 0.06

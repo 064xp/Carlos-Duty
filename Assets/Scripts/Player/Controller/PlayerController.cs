@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float stamina;
     private float replenishStaminaAfter = 0;
+    [SerializeField]
+    private Animator armsAnimator;
 
     private void Awake() {
         controller = GetComponent<CharacterController>();
@@ -62,9 +64,9 @@ public class PlayerController : MonoBehaviour
         if(weaponManager.GetWeaponCount() > 0) {
             canRun = canRun && weaponManager.EquipedItem.CanRun();
             if(canRun && isRunning)
-                weaponManager.EquipedItem.animator.SetBool("IsRunning", true);
+                weaponManager.EquipedItem.SetAnimatorParam("IsRunning", true);
             else 
-                weaponManager.EquipedItem.animator.SetBool("IsRunning", false);
+                weaponManager.EquipedItem.SetAnimatorParam("IsRunning", false);
         }
 
         // Run speed
@@ -78,9 +80,14 @@ public class PlayerController : MonoBehaviour
         if(controller.isGrounded && moveDirection.y < 0) {
             moveDirection.y = -2f;
         }
+
+        if(input.magnitude > 0) 
+            weaponManager.EquipedItem.SetAnimatorParam("IsWalking", true);
+        else
+            weaponManager.EquipedItem.SetAnimatorParam("IsWalking", false);
         
-        // Normalize 2D vector 
         if(input.x != 0 && input.y != 0) {
+            // Normalize 2D vector 
             input *= 0.777f;
         }
 

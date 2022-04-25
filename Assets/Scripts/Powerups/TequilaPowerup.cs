@@ -32,8 +32,8 @@ public class TequilaPowerup : Powerup
     {
        if (!canUse || isDrinking) return;
 
-       if(Input.GetButtonDown("Fire1") 
-            //&& player.health < player.maxHealth
+       if(Input.GetButtonDown("Fire1")
+            && player.health < player.maxHealth
             ) {
             StartDrink();
        }

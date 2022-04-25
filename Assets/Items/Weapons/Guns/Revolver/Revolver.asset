@@ -23,6 +23,7 @@ MonoBehaviour:
   startAmmo: 60
   clipSize: 6
   weaponName: Revolver
+  weaponID: 3
   pitchRange:
     minValue: 0.01
     maxValue: 0.06

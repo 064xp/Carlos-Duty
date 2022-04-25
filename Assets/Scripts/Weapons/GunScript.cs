@@ -9,7 +9,6 @@ public class GunScript : Weapon
     private Camera fpsCam;
     private delegate bool FireInputMethod(string name) ;
     private FireInputMethod inputMethod;
-    [SerializeField]
     private ParticleSystem muzzleFlash;
     //[SerializeField]
     private AudioSource audioSource;
@@ -28,6 +27,7 @@ public class GunScript : Weapon
     private void OnEnable() {
         animator.CrossFadeInFixedTime("Draw", 0f, 0);
         canShoot = false;
+        StartCoroutine(SetCanShootTrue());
     }
 
     private void OnDisable() {
@@ -51,10 +51,7 @@ public class GunScript : Weapon
         // Instantiate particles
         muzzleFlash = Instantiate<ParticleSystem>(Settings.muzzleFlash, muzzleFlashPos);
 
-        // Initialize animator variables
-        animator.SetFloat("ReloadTimeMultiplier", 1 / Settings.reloadTime);
-        animator.SetFloat("ADSTimeMultiplier", 1 / Settings.ADSTime);
-        animator.SetFloat("DrawTimeMultiplier", 1 / Settings.drawTime);
+        SetAnimationMultipliers();
 
         inputMethod = Settings.fireMode switch
         {
@@ -62,10 +59,19 @@ public class GunScript : Weapon
             WeaponSettings.FireModes.SemiAutomatic => Input.GetButtonDown,
             _ => Input.GetButton,
         };
+        print($"Inputmethod {inputMethod}");
+
+        if (!UsedByAI) OnPickup();
+    }
+    public IEnumerator SetCanShootTrue() {
+        yield return new WaitForSeconds(Settings.drawTime);
+        canShoot = true;
     }
 
     override public void OnPickup() {
         base.OnPickup();
+        print($"OnPickup gunscript");
+        SetAnimationMultipliers();
         animator.CrossFadeInFixedTime("Draw", 0f, 0);
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
         crosshair = GameObject.Find("Crosshair");
@@ -99,6 +105,7 @@ public class GunScript : Weapon
 
             // Fire 
             if(inputMethod("Fire1")) {
+                print($"{Settings.weaponName} Fire!");
                 Shoot();
             }
 
@@ -123,19 +130,16 @@ public class GunScript : Weapon
         Shoot(raycastOrigin.position, raycastOrigin.forward, 0f);
     }
 
-    //private void OnDrawGizmos() {
-    //    Debug.DrawRay(shootRay.origin, shootRay.direction, Color.blue);
-    //}
-
     public void Shoot(Vector3 raycastOrigin, Vector3 rayCastDirection, float inaccuracy) {
         if (Time.time < nextTimeToFire || isReloading) return;
         nextTimeToFire = Time.time + 1 / Settings.fireRate;
 
-        animator.SetBool("IsRunning", false);
+        SetAnimatorParam("IsRunning", false);
 
         RaycastHit hit;
 
-        animator.CrossFadeInFixedTime("Shooting", 0f, 0);
+        ToAnimatorState("Shoot");
+
         muzzleFlash.Play();
         Settings.shootAudioEvent.Play(audioSource);
 
@@ -150,7 +154,6 @@ public class GunScript : Weapon
             if (!UsedByAI && hit.transform.gameObject.CompareTag("Player")) return;
 
             hit.transform.gameObject.SendMessage("TakeDamage", Settings.damage, SendMessageOptions.DontRequireReceiver);
-            print(hit.transform.name);
 
             // Impact effect
             GameObject impactObject = Instantiate(Settings.impactEffect, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
@@ -158,7 +161,8 @@ public class GunScript : Weapon
         }
 
 
-        MagazineAmmo--;
+        if(!UsedByAI)
+            MagazineAmmo--;
         heat = Mathf.Clamp(heat + 1, 0, Settings.maxHeat);
         startCooldownAfter = Time.time + Settings.cooldownAfterShooting;
         
@@ -190,16 +194,22 @@ public class GunScript : Weapon
         Settings.reloadAudioEvent.Play(audioSource);
         isReloading = true;
         animator.SetLayerWeight(1, 0);
+
         if(!UsedByAI)
-            animator.SetTrigger("Reload");
+            SetAnimatorTrigger("Reload");
+
         wasADS = animator.GetBool("IsADS");
         if (wasADS) StartCoroutine(LerpFOVTo(originalCamFOV));
-        animator.SetBool("IsADS", false);
+        SetAnimatorParam("IsADS", false);
+
+        StartCoroutine(EndReload());
     }
 
-    public void EndReload() {
+    public IEnumerator EndReload() {
+        yield return new WaitForSeconds(Settings.reloadTime);
+
         if (wasADS) {
-            animator.SetBool("IsADS", true);
+            SetAnimatorParam("IsADS", true);
             animator.SetLayerWeight(1, 1);
             StartCoroutine(LerpFOVTo(Settings.ADSFov));
         }
@@ -220,6 +230,7 @@ public class GunScript : Weapon
     void ADS() {
         bool isADS = animator.GetBool("IsADS");
         bool isRunning = animator.GetBool("IsRunning");
+
         if (isRunning) return;
 
         float newFov = isADS ? originalCamFOV : Settings.ADSFov;
@@ -229,8 +240,8 @@ public class GunScript : Weapon
 
         crosshair.SetActive(isADS);
         StartCoroutine(LerpFOVTo(newFov));
-        animator.SetBool("IsADS", !isADS);
-        animator.SetBool("IsRunning", false);
+        SetAnimatorParam("IsADS", !isADS);
+        SetAnimatorParam("IsRunning", false);
     }
 
     IEnumerator LerpFOVTo(float value) {
@@ -247,5 +258,12 @@ public class GunScript : Weapon
     override public bool CanRun() {
         bool isADS = animator.GetBool("IsADS");
         return !isADS && !isReloading;
+    }
+
+
+    private void SetAnimationMultipliers() {
+        SetAnimatorParam("ReloadTimeMultiplier", 1 / Settings.reloadTime);
+        SetAnimatorParam("ADSTimeMultiplier", 1 / Settings.ADSTime);
+        SetAnimatorParam("DrawTimeMultiplier", 1 / Settings.drawTime);
     }
 }

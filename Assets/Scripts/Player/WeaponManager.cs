@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class WeaponManager : MonoBehaviour
     [SerializeField]
     private Camera fpsCamera;
     float initialCamFOV;
+    public UnityEvent OnWeaponChange;
 
     private void Start() {
         initialCamFOV = fpsCamera.fieldOfView;
@@ -24,6 +26,7 @@ public class WeaponManager : MonoBehaviour
 
         if(transform.childCount == 0) {
             hudManager.SetNoWeaponAmmo();
+            EquipedItem = null;
             return;
         }
 
@@ -42,6 +45,8 @@ public class WeaponManager : MonoBehaviour
             }
             i++;
         }
+
+        OnWeaponChange.Invoke();
     }
 
     public void SwitchWeapon(int weaponIndex) {
