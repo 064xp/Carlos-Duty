@@ -38,6 +38,11 @@ public class GunScript : Weapon
         isReloading = false;
     }
 
+    override public void OnEquip() {
+        base.OnEquip();
+        SetAnimationMultipliers();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +64,6 @@ public class GunScript : Weapon
             WeaponSettings.FireModes.SemiAutomatic => Input.GetButtonDown,
             _ => Input.GetButton,
         };
-        print($"Inputmethod {inputMethod}");
 
         if (!UsedByAI) OnPickup();
     }
@@ -105,7 +109,6 @@ public class GunScript : Weapon
 
             // Fire 
             if(inputMethod("Fire1")) {
-                print($"{Settings.weaponName} Fire!");
                 Shoot();
             }
 

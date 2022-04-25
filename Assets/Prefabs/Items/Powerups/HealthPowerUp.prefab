@@ -47,7 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 7829861669582275134}
+  armsAnimator: {fileID: 0}
   type: 1
+  playerCustomPosition: {x: 0.176, y: 0.268, z: 1.476}
   amount: 1
   canUse: 0
   healthRegen: 50

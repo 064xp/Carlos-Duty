@@ -558,9 +558,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8747775657509529174}
+  armsAnimator: {fileID: 0}
   type: 0
   Settings: {fileID: 11400000, guid: b37e0c490a02ef54a873c61c41142a0d, type: 2}
-  UsedByAI: 0
+  UsedByAI: 1
   canShoot: 0
   Ammo: 0
   MagazineAmmo: 0
@@ -674,8 +675,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.06, y: 0.3659952, z: 1.8252368}
-  m_Center: {x: 0, y: -0.12899087, z: 0.088976145}
+  m_Size: {x: 0.14645234, y: 0.60974, z: 3.2185278}
+  m_Center: {x: -0.43, y: -0.25086325, z: 1.8633547}
 --- !u!1 &8458631046788316932
 GameObject:
   m_ObjectHideFlags: 0

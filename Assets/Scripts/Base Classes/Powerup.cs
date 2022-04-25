@@ -11,6 +11,7 @@ public class Powerup : Equipable
     protected bool canUse = false;
     protected HUDManager hud;
     protected WeaponManager weaponManager;
+    public int weaponID = 0;
 
     public Powerup() {
         type = Types.Powerup;
@@ -58,6 +59,7 @@ public class Powerup : Equipable
     }
 
     public override void OnEquip() {
+        armsAnimator.SetInteger("WeaponID", weaponID);
         hud.SetEquipableAmount(amount);
     }
 }

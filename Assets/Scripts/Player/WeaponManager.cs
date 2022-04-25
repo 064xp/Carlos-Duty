@@ -15,6 +15,8 @@ public class WeaponManager : MonoBehaviour
     private Camera fpsCamera;
     float initialCamFOV;
     public UnityEvent OnWeaponChange;
+    [SerializeField]
+    Animator armsAnimator;
 
     private void Start() {
         initialCamFOV = fpsCamera.fieldOfView;
@@ -27,6 +29,7 @@ public class WeaponManager : MonoBehaviour
         if(transform.childCount == 0) {
             hudManager.SetNoWeaponAmmo();
             EquipedItem = null;
+            armsAnimator.SetInteger("WeaponID", 0);
             return;
         }
 
@@ -88,15 +91,15 @@ public class WeaponManager : MonoBehaviour
         if (equippedItem != null) {
             equippedItem.OnPickupEquipped(gameObject);
         } else {
-            gameObject.transform.localPosition = Vector3.zero;
+            //gameObject.transform.localPosition = Vector3.zero;
             gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
-            gameObject.transform.position = transform.position;
             gameObject.transform.rotation = transform.rotation;
 
             if (transform.childCount > 0)
                 gameObject.transform.gameObject.SetActive(false);
 
             gameObject.transform.SetParent(transform);
+            gameObject.transform.localPosition = equipable.playerCustomPosition;
 
             equipable.OnPickup(this);
         }

@@ -82,9 +82,9 @@ public class PlayerController : MonoBehaviour
         }
 
         if(input.magnitude > 0) 
-            weaponManager.EquipedItem.SetAnimatorParam("IsWalking", true);
+            weaponManager?.EquipedItem?.SetAnimatorParam("IsWalking", true);
         else
-            weaponManager.EquipedItem.SetAnimatorParam("IsWalking", false);
+            weaponManager?.EquipedItem?.SetAnimatorParam("IsWalking", false);
         
         if(input.x != 0 && input.y != 0) {
             // Normalize 2D vector 

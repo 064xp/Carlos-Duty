@@ -21,9 +21,6 @@ public class Weapon : Equipable {
 
     override public void OnPickup() {
         base.OnPickup();
-        //armsAnimator = GameObject.Find("Player/FPSArms").GetComponent<Animator>();
-        //print($"arms animator found weapon on pickup {armsAnimator}");
-        print($"OnPickup weapon");
         animator.enabled = true;
         GetComponent<BoxCollider>().enabled = false;
         hud = GameObject.Find("HUDManager").GetComponent<HUDManager>();

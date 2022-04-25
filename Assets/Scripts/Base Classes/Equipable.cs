@@ -12,6 +12,7 @@ public class Equipable : MonoBehaviour
     public Animator animator;
     public Animator armsAnimator;
     public Types type;
+    public Vector3 playerCustomPosition = Vector3.zero;
 
     virtual public string GetName() {
         Debug.LogWarning($"You need to override the GetName method for item {transform.name}");
