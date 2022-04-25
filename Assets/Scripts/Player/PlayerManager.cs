@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : Damagable {
     private HUDManager hudManager;
-    public float gameOverSlowDownTime = 3.0f;
-    [SerializeField]
-    private MouseLook mouseLook;
+    public GameManager gameManager;
     [SerializeField]
     private WeaponManager weaponManager;
     [HideInInspector]
@@ -25,21 +23,7 @@ public class PlayerManager : Damagable {
     }
 
     public override void Die() {
-        hudManager.OnGameOver("You died!");
-        StartCoroutine(LerpTimeScaleTo(0.0f));
-        mouseLook.enabled = false;
-    }
-
-    IEnumerator LerpTimeScaleTo(float value) {
-        float elapsedTime = 0f;
-        float initialTimeScale = Time.timeScale;
-
-        while(elapsedTime <= gameOverSlowDownTime) {
-            elapsedTime += Time.deltaTime;
-            Time.timeScale = Mathf.Lerp(initialTimeScale, value, elapsedTime / gameOverSlowDownTime);
-            yield return null;
-        }
-
+        gameManager.GameOver("¡Haz muerto!");
     }
 
     public void SetHealth(int newHealth) {
