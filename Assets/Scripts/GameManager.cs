@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public float gameOverSlowDownTime = 3f;
 
     private void Start() {
-        //LoadHorde();
+        LoadHorde();
     }
 
     IEnumerator SpawnEnemies() {

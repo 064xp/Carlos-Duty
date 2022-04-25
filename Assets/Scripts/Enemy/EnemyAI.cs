@@ -37,6 +37,8 @@ public class EnemyAI : Damagable
     private float fireUntil = 0f;
     public Enemy enemySettings;
 
+    public WeightedValue<GameObject>[] enemyDrops;
+
 
     // Start is called before the first frame update
     void Start()
@@ -115,14 +117,12 @@ public class EnemyAI : Damagable
 
         if(directionToPlayer.magnitude <= enemySettings.shootDistance && inSight) {
             agent.ResetPath();
-            print("attack player state");
             state = States.AttackPlayer;
         }
 
         if (HasReached()) {
             animator.SetBool("IsWalking", false);
             state = States.AttackTarget;
-            print("Attack target state");
         }
     }
 
@@ -134,16 +134,16 @@ public class EnemyAI : Damagable
 
         if (inSight && directionToPlayer.magnitude <= enemySettings.shootDistance) {
             LookAt(player);
-            Shoot();
+            Shoot(player.position);
         } 
     }
 
     private void AttackTarget() {
         LookAt(shootingTarget);
-        Shoot();
+        Shoot(shootingTarget.position);
     }
 
-    private void Shoot() {
+    private void Shoot(Vector3 target) {
         if (!canShoot) return;
 
         if(fireUntil <= Time.time) {
@@ -156,7 +156,7 @@ public class EnemyAI : Damagable
         );
 
         animator.SetTrigger("Shoot");
-        gun.Shoot(head.position, player.position - head.position, inaccuracy);
+        gun.Shoot(head.position, target - head.position, inaccuracy);
     }
 
     IEnumerator ShootingCooldown() {
@@ -186,13 +186,25 @@ public class EnemyAI : Damagable
 
         if(Physics.Raycast(equippedWeapon.transform.position, Vector3.down, out hit)) {
             equippedWeapon.transform.SetParent(null);
+            BoxCollider weaponCollider = equippedWeapon.GetComponent<BoxCollider>();
             Vector3 newPos = hit.point;
-            newPos.y += 1.0f;
+
+            weaponCollider.enabled = true;
+            newPos.y += weaponCollider.bounds.size.y;
             equippedWeapon.transform.position = newPos;
             equippedWeapon.transform.localScale = new Vector3(1, 1, 1);
             equippedWeapon.transform.rotation = Quaternion.Euler(0, 0, 0);
-            equippedWeapon.GetComponent<BoxCollider>().enabled = true;
             equippedWeapon.GetComponent<Animator>().enabled = false ;
+
+            GameObject drop = WeightedRandomChoice.RandomChoice<GameObject>(enemyDrops);
+            if(drop != null) {
+                GameObject instDrop = Instantiate(drop);
+
+                Vector3 dropPos = hit.point;
+                dropPos.x += 1;
+                dropPos.y += instDrop.GetComponent<BoxCollider>().bounds.size.y;
+                instDrop.transform.position = dropPos;
+            }
         }
 
         Destroy(this.gameObject, 3f);

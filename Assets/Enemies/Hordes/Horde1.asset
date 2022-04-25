@@ -17,5 +17,5 @@ MonoBehaviour:
     weight: 100
   spawnFrequency:
     minValue: 0.4
-    maxValue: 1
-  totalEnemies: 10
+    maxValue: 4
+  totalEnemies: 7

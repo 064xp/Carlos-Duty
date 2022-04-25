@@ -107,6 +107,15 @@ public class WeaponManager : MonoBehaviour
         SelectWeapon();
     }
 
+    public void OnDrawGizmos() {
+        float angle = Vector3.Angle(Vector3.down, transform.forward) - 65f;
+        Vector3 rayDir = Quaternion.AngleAxis(angle, transform.right) * transform.forward;
+        Vector3 origin = transform.position;
+        origin.y += 1;
+
+        Debug.DrawRay(origin, rayDir * 10, Color.red);
+    }
+
     public void DropWeapon() {
         if (transform.childCount == 0) return;
 
@@ -123,10 +132,12 @@ public class WeaponManager : MonoBehaviour
         selectedItem.SetParent(null);
         RaycastHit hit;
 
-        float angle = Vector3.Angle(Vector3.down, transform.forward) - 30f;
+        float angle = Vector3.Angle(Vector3.down, transform.forward) - 65f;
         Vector3 rayDir = Quaternion.AngleAxis(angle, transform.right) * transform.forward;
+        Vector3 origin = transform.position;
+        origin.y += 1;
 
-        if(Physics.Raycast(transform.position, rayDir, out hit)) {
+        if(Physics.Raycast(origin, rayDir, out hit)) {
             BoxCollider itemCollider = selectedItem.gameObject.GetComponent<BoxCollider>();
             Vector3 newPos = hit.point;
             newPos.y = itemCollider.bounds.size.y + 0.4f;
@@ -134,6 +145,7 @@ public class WeaponManager : MonoBehaviour
             selectedItem.position = newPos;
             selectedItem.rotation = Quaternion.Euler(transform.forward);
             itemCollider.enabled = true;
+            selectedItem.GetComponent<Equipable>().animator.enabled = false;
         }
 
         SelectWeapon();

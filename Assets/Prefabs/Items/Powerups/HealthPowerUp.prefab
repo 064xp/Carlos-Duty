@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7829861669582275135}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -36.60937, y: -3.0764035e-16, z: 13.85489}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7829861669995833592}
@@ -52,6 +52,7 @@ MonoBehaviour:
   playerCustomPosition: {x: 0.176, y: 0.268, z: 1.476}
   amount: 1
   canUse: 0
+  weaponID: 0
   healthRegen: 50
   drunkEffectAmount: 0.5
   drunkEffect: {fileID: 0}
@@ -67,7 +68,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.19415972, y: 0.5976908, z: 0.16263267}
-  m_Center: {x: 0.002844587, y: 0.042661667, z: -0.000000014901161}
+  m_Center: {x: 0, y: -0.29, z: 0}
 --- !u!95 &7829861669582275134
 Animator:
   serializedVersion: 3
@@ -113,7 +114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7829861669995833593}
   m_LocalRotation: {x: -0.6678966, y: 0.23219414, z: 0.23219414, w: 0.6678966}
-  m_LocalPosition: {x: 0, y: -0.26, z: 0}
+  m_LocalPosition: {x: 0, y: -0.577, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7829861669582275123}

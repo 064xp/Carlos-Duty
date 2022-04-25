@@ -2011,7 +2011,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   state: 0
-  navigationTarget: {x: 0, y: 0, z: 0}
+  navigationTarget: {x: -1.6452847, y: 1.5, z: -22.466759}
   shootingTarget: {fileID: 0}
   player: {fileID: 0}
   gunContainer: {fileID: 9025341583544534682}
@@ -2019,6 +2019,13 @@ MonoBehaviour:
   animator: {fileID: 9146764815947027208}
   inSight: 0
   enemySettings: {fileID: 11400000, guid: 1760817e2943d434eb570175fb53b6a0, type: 2}
+  enemyDrops:
+  - value: {fileID: 2758969366921360934, guid: fc7b5acd26489e343b273e98dcc8cff5, type: 3}
+    weight: 30
+  - value: {fileID: 7829861669582275135, guid: 9f4b3800aaeedb641bc021a1a63c87af, type: 3}
+    weight: 30
+  - value: {fileID: 0}
+    weight: 40
 --- !u!136 &1922824820905800114
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2032,7 +2039,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2.64
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.18, y: 0, z: 0}
 --- !u!1 &1922824821831350082
 GameObject:
   m_ObjectHideFlags: 0
