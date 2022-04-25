@@ -51,7 +51,6 @@ public class TequilaPowerup : Powerup
         amount--;
         drunkEffect.ApplyEffect(drunkEffectAmount);
         if(amount <= 0) {
-            //weaponManager.DropWeapon();
             transform.SetParent(null);
             Destroy(this.gameObject);
             weaponManager.SelectWeapon();

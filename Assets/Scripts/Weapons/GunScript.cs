@@ -41,6 +41,7 @@ public class GunScript : Weapon
     override public void OnEquip() {
         base.OnEquip();
         SetAnimationMultipliers();
+        hud.SetAmmoType(HUDManager.AmmoTypes.Bullets);
     }
 
     // Start is called before the first frame update

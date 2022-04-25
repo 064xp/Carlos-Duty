@@ -6,23 +6,56 @@ using TMPro;
 
 public class HUDManager : MonoBehaviour
 {
+    public enum AmmoTypes {
+        Bullets,
+        Bottle
+    }
+
+    [Header("Ammo")]
+    public TextMeshProUGUI magAmmoText;
     public TextMeshProUGUI ammoText;
+    public Transform ammoTypeGraphics;
+    [Header("Ammo Type Graphics")]
+    public GameObject bulletsGraphic;
+    public GameObject bottleGraphic;
+    [Header("GameOver")]
     public GameObject gameOverPanel;
     public TextMeshProUGUI gameOverReasonText;
+    [Header("Player Health")]
     public TextMeshProUGUI healthText;
     public Image healthIconFill;
+    [Header("Church Health")]
     public Slider churchHealthBar;
 
+    
     public void SetAmmo(int magAmmo, int totalAmmo) {
-        ammoText.SetText($"{magAmmo} / {totalAmmo}");
+        magAmmoText.SetText($"{magAmmo}");
+        ammoText.SetText($"/{totalAmmo}");
+    }
+
+    public void SetAmmoType(AmmoTypes type) {
+        foreach(Transform child in ammoTypeGraphics) {
+            child.gameObject.SetActive(false);
+        }
+
+        switch (type) {
+            case AmmoTypes.Bullets:
+                bulletsGraphic.SetActive(true);
+                break;
+        }
     }
 
     public void SetNoWeaponAmmo() {
+        foreach(Transform child in ammoTypeGraphics) {
+            child.gameObject.SetActive(false);
+        }
         ammoText.SetText("");
+        magAmmoText.SetText("");
     }
 
     public void SetEquipableAmount(int amount) {
-        ammoText.SetText($"{amount}");
+        magAmmoText.SetText($"{amount}");
+        ammoText.SetText("");
     }
 
     public void OnGameOver(string reason) {
@@ -36,16 +69,7 @@ public class HUDManager : MonoBehaviour
     }
 
     public void SetChurchHealth(int health) {
-        //StartCoroutine(UpdateChurchHealth(health));
         churchHealthBar.value = health;
-    }
-
-    IEnumerator UpdateChurchHealth(int newValue) {
-        float speed = 2f;
-        while(churchHealthBar.value != newValue) {
-            churchHealthBar.value = Mathf.MoveTowards(churchHealthBar.value, newValue, Time.deltaTime * speed);
-            yield return null;
-        }
     }
 
     public void SetChurchMaxHealth(int value) {
