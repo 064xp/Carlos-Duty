@@ -6,7 +6,7 @@ public class MouseLook : MonoBehaviour {
     Vector2 _smoothMouse;
 
     public Vector2 clampInDegrees = new Vector2(360, 180);
-    public bool lockCursor;
+    //public bool lockCursor;
 
     public Vector2 sensitivity = new Vector2(2, 2);
     public Vector2 smoothing = new Vector2(3, 3);
@@ -26,13 +26,14 @@ public class MouseLook : MonoBehaviour {
         if (characterBody)
             targetCharacterDirection = characterBody.transform.localRotation.eulerAngles;
 
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void LateUpdate() {
         // Ensure the cursor is always locked when set
-        if (lockCursor) {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        //if (lockCursor) {
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //}
 
         // Allow the script to clamp based on a desired target value.
         var targetOrientation = Quaternion.Euler(targetDirection);

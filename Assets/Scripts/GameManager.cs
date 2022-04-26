@@ -16,9 +16,21 @@ public class GameManager : MonoBehaviour
     public Transform church;
     public HUDManager hud;
     public float gameOverSlowDownTime = 3f;
+    public GameObject pauseMenu;
+    public GameObject settingsMenu;
+    public MouseLook mouseLook;
+    public FadeTransition fadeTransition;
+    public float fadeInDuration;
 
     private void Start() {
-        LoadHorde();
+        //LoadHorde();
+        fadeTransition.FadeIn(fadeInDuration);
+    }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            TogglePause();
+        }
     }
 
     IEnumerator SpawnEnemies() {
@@ -72,6 +84,22 @@ public class GameManager : MonoBehaviour
                 currentHorde++;
                 LoadHorde();
             }
+        }
+    }
+
+    public void TogglePause() {
+        bool isPaused = pauseMenu.activeInHierarchy || settingsMenu.activeInHierarchy;
+        if (isPaused) {
+            Time.timeScale = 1f;
+            pauseMenu.SetActive(false);
+            settingsMenu.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            mouseLook.enabled = true;
+        } else {
+            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0f;
+            pauseMenu.SetActive(true);
+            mouseLook.enabled = false;
         }
     }
 

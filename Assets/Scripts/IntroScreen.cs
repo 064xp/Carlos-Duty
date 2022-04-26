@@ -15,13 +15,7 @@ public class IntroScreen : MonoBehaviour
     void Update()
     {
         if(Input.anyKey) {
-            fade.FadeOut(fadeDuration);
-            StartCoroutine(StartGame());
+            fade.FadeOut(fadeDuration, "MainScene");
         }
-    }
-
-    IEnumerator StartGame() {
-        yield return new WaitForSeconds(fadeDuration);
-        SceneManager.LoadScene("MainScene");
     }
 }
