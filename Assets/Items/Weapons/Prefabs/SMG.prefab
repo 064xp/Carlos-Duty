@@ -50,7 +50,7 @@ MonoBehaviour:
   animator: {fileID: 2758969366921360929}
   armsAnimator: {fileID: 0}
   type: 0
-  playerCustomPosition: {x: 0, y: 0, z: 0}
+  playerCustomPosition: {x: 0.149, y: 0.319, z: 1.588}
   Settings: {fileID: 11400000, guid: 042c2f23f907a9e49bbfcd1e0cb32675, type: 2}
   UsedByAI: 1
   canShoot: 0

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5077214726505494199}
   m_Layer: 0
   m_Name: Revolver
-  m_TagString: Untagged
+  m_TagString: Equipable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
   animator: {fileID: 2758969366921360929}
   armsAnimator: {fileID: 0}
   type: 0
-  playerCustomPosition: {x: 0, y: 0, z: 0}
+  playerCustomPosition: {x: 0.149, y: 0.33, z: 1.963}
   Settings: {fileID: 11400000, guid: 685a7a67d6c66754e8eb2aa7430cfd8a, type: 2}
   UsedByAI: 1
   canShoot: 0

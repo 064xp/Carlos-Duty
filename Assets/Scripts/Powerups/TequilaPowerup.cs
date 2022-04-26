@@ -30,7 +30,7 @@ public class TequilaPowerup : Powerup
     // Update is called once per frame
     void Update()
     {
-       if (!canUse || isDrinking) return;
+       if (!canUse || isDrinking || Time.timeScale == 0f) return;
 
        if(Input.GetButtonDown("Fire1")
             && player.health < player.maxHealth

@@ -100,7 +100,7 @@ public class GunScript : Weapon
     }
 
     void CheckForUserInputs() {
-        if (!UsedByAI) {
+        if (!UsedByAI && Time.timeScale != 0f) {
             // Check for manual reload
             if(Input.GetKeyDown(KeyCode.R)) {
                 StartReload();
@@ -141,7 +141,7 @@ public class GunScript : Weapon
 
         RaycastHit hit;
 
-        ToAnimatorState("Shoot");
+        ToAnimatorState("Shoot", $"{Settings.weaponName}Shoot");
 
         muzzleFlash.Play();
         Settings.shootAudioEvent.Play(audioSource);

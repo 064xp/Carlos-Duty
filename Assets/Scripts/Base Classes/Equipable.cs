@@ -48,8 +48,14 @@ public class Equipable : MonoBehaviour
     
     public void ToAnimatorState(string state) {
         animator.CrossFadeInFixedTime(state, 0f, 0);
-        if(armsAnimator != null)
+        if(armsAnimator != null) 
             armsAnimator.CrossFadeInFixedTime(state, 0f, 0);
+    }
+    public void ToAnimatorState(string weaponState, string armsState) {
+        animator.CrossFadeInFixedTime(weaponState, 0f, 0);
+        if(armsAnimator != null) {
+            armsAnimator.CrossFadeInFixedTime(armsState, 0f, 0);
+        }
     }
 
 }
