@@ -40,6 +40,7 @@ public class GunScript : Weapon
     override public void OnEquip() {
         base.OnEquip();
         //animator.CrossFadeInFixedTime("Draw", 0f, 0);
+        Settings.drawAudioEvent.Play(audioSource);
         SetAnimationMultipliers();
         hud.SetAmmoType(HUDManager.AmmoTypes.Bullets);
     }

@@ -35,5 +35,6 @@ MonoBehaviour:
   cooldownAfterShooting: 0.2
   muzzleFlash: {fileID: 2250592191149763084, guid: d04386843470ee74aa6b831ed1e92516, type: 3}
   impactEffect: {fileID: 19800004, guid: 0438351a6e6422d43a09930e9be00ee9, type: 3}
-  shootAudioEvent: {fileID: 11400000, guid: 1f9b8a911798f894197aab049f03b45b, type: 2}
-  reloadAudioEvent: {fileID: 11400000, guid: 6503959c2be5e3e4d9e188f219dd5df2, type: 2}
+  shootAudioEvent: {fileID: 11400000, guid: 16fcf4db45b6fc042a20c1d2f92dd291, type: 2}
+  reloadAudioEvent: {fileID: 11400000, guid: de551c738a0e1514d8aeb1ad2baff721, type: 2}
+  drawAudioEvent: {fileID: 11400000, guid: 2b43db09ec94c1f46bfc72a3436996c8, type: 2}

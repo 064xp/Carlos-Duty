@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: RifleEnemyFiringPattern
   m_EditorClassIdentifier: 
   fireTime:
-    minValue: 0.3
-    maxValue: 0.5
+    minValue: 0.1
+    maxValue: 0.4
   cooldownTime:
-    minValue: 0.6
-    maxValue: 1.4
+    minValue: 0.3
+    maxValue: 1
   inaccuracy:
     minValue: 0
     maxValue: 0.3

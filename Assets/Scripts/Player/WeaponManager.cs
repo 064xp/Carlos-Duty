@@ -48,8 +48,11 @@ public class WeaponManager : MonoBehaviour
         foreach(Transform item in transform) {
             if (i == selectedItemIndex) {
                 item.gameObject.SetActive(true);
-                EquipedItem = item.GetComponent<Equipable>();
-                EquipedItem.OnEquip();
+                Equipable equipItem = item.GetComponent<Equipable>();
+                if (!equipItem.Equals(EquipedItem)) {
+                    EquipedItem = equipItem;
+                    EquipedItem.OnEquip();
+                }
                 fpsArmsContainer.localPosition = EquipedItem.armsCustomPosition;
 
             } else {

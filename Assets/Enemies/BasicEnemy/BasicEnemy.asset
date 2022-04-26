@@ -21,7 +21,7 @@ MonoBehaviour:
   followMemoryTime: 6
   movementSpeed: 6
   enemyDrops:
-  - value: {fileID: 2758969366921360934, guid: fc7b5acd26489e343b273e98dcc8cff5, type: 3}
+  - value: {fileID: 5968489646600478584, guid: a1710877ac2dba84ba582827cdf13102, type: 3}
     weight: 20
   - value: {fileID: 7829861669582275135, guid: 9f4b3800aaeedb641bc021a1a63c87af, type: 3}
     weight: 30
