@@ -71,4 +71,9 @@ public class MouseLook : MonoBehaviour {
             transform.localRotation *= yRotation;
         }
     }
+
+    public void SetSensitivity(float newSens) {
+        sensitivity.x = newSens;
+        sensitivity.y = newSens;
+    }
 }
