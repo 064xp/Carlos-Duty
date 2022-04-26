@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameOver(string reason) {
+        Cursor.lockState = CursorLockMode.None;
         hud.OnGameOver(reason);
         player.GetComponent<PlayerController>().enabled = false;
         player.Find("FPSCamera").GetComponent<MouseLook>().enabled = false;

@@ -40,6 +40,7 @@ public class GunScript : Weapon
 
     override public void OnEquip() {
         base.OnEquip();
+        animator.CrossFadeInFixedTime("Draw", 0f, 0);
         SetAnimationMultipliers();
         hud.SetAmmoType(HUDManager.AmmoTypes.Bullets);
     }
@@ -76,7 +77,6 @@ public class GunScript : Weapon
     override public void OnPickup() {
         base.OnPickup();
         SetAnimationMultipliers();
-        animator.CrossFadeInFixedTime("Draw", 0f, 0);
         fpsCam = GameObject.Find("FPSCamera").GetComponent<Camera>();
         crosshair = GameObject.Find("Crosshair");
         originalCamFOV = fpsCam.fieldOfView;
