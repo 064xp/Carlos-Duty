@@ -16,7 +16,14 @@ MonoBehaviour:
   enemyPrefab: {fileID: 1922824820905800118, guid: 0577569adcefc6c4fa5cc6f55eff8db1, type: 3}
   gunPrefab: {fileID: 6692734112477763806, guid: 5093b99a78be4da46afcbdec4d6c4374, type: 3}
   firingPattern: {fileID: 11400000, guid: 97a26fd27a54386448c90f7cca0bd2ef, type: 2}
-  updateFrequency: 4
   shootDistance: 25
   followDistance: 125
   followMemoryTime: 6
+  movementSpeed: 6
+  enemyDrops:
+  - value: {fileID: 2758969366921360934, guid: fc7b5acd26489e343b273e98dcc8cff5, type: 3}
+    weight: 20
+  - value: {fileID: 7829861669582275135, guid: 9f4b3800aaeedb641bc021a1a63c87af, type: 3}
+    weight: 30
+  - value: {fileID: 0}
+    weight: 50

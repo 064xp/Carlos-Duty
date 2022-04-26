@@ -10,7 +10,6 @@ public class GunScript : Weapon
     private delegate bool FireInputMethod(string name) ;
     private FireInputMethod inputMethod;
     private ParticleSystem muzzleFlash;
-    //[SerializeField]
     private AudioSource audioSource;
     private GameObject crosshair;
 
@@ -40,7 +39,7 @@ public class GunScript : Weapon
 
     override public void OnEquip() {
         base.OnEquip();
-        animator.CrossFadeInFixedTime("Draw", 0f, 0);
+        //animator.CrossFadeInFixedTime("Draw", 0f, 0);
         SetAnimationMultipliers();
         hud.SetAmmoType(HUDManager.AmmoTypes.Bullets);
     }

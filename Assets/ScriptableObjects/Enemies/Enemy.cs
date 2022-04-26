@@ -10,4 +10,5 @@ public class Enemy : ScriptableObject {
     public float followDistance = 125f;
     public float followMemoryTime = 6f;
     public float movementSpeed = 6f;
+    public WeightedValue<GameObject>[] enemyDrops;
 }

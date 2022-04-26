@@ -38,8 +38,6 @@ public class EnemyAI : Damagable
     public Enemy enemySettings;
     public GameManager gameManager;
 
-    public WeightedValue<GameObject>[] enemyDrops;
-
 
     // Start is called before the first frame update
     void Start()
@@ -200,7 +198,7 @@ public class EnemyAI : Damagable
             equippedWeapon.transform.rotation = Quaternion.Euler(0, 0, 0);
             equippedWeapon.GetComponent<GunScript>().animator.enabled = false ;
 
-            GameObject drop = WeightedRandomChoice.RandomChoice<GameObject>(enemyDrops);
+            GameObject drop = WeightedRandomChoice.RandomChoice<GameObject>(enemySettings.enemyDrops);
             if(drop != null) {
                 GameObject instDrop = Instantiate(drop);
 

@@ -16,6 +16,8 @@ public class WeaponManager : MonoBehaviour
     float initialCamFOV;
     public UnityEvent OnWeaponChange;
     [SerializeField]
+    Transform fpsArmsContainer;
+    [SerializeField]
     Animator armsAnimator;
     private AudioSource audioSource;
 
@@ -48,6 +50,8 @@ public class WeaponManager : MonoBehaviour
                 item.gameObject.SetActive(true);
                 EquipedItem = item.GetComponent<Equipable>();
                 EquipedItem.OnEquip();
+                fpsArmsContainer.localPosition = EquipedItem.armsCustomPosition;
+
             } else {
                 item.gameObject.SetActive(false);
             }

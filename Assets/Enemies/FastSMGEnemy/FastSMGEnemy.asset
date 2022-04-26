@@ -10,13 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b96c6bc0243852498082030934fc374, type: 3}
-  m_Name: Enemy2
+  m_Name: FastSMGEnemy
   m_EditorClassIdentifier: 
   health: 100
   enemyPrefab: {fileID: 1922824820905800118, guid: 0577569adcefc6c4fa5cc6f55eff8db1, type: 3}
   gunPrefab: {fileID: 8336889689924759619, guid: a16a2b52ea6ea014ba6226b7d46d560f, type: 3}
-  firingPattern: {fileID: 11400000, guid: 97a26fd27a54386448c90f7cca0bd2ef, type: 2}
-  updateFrequency: 4
+  firingPattern: {fileID: 11400000, guid: 82e82810307213e4eadc3716e5e06bc2, type: 2}
   shootDistance: 25
   followDistance: 125
   followMemoryTime: 6
+  movementSpeed: 8
+  enemyDrops:
+  - value: {fileID: 7829861669582275135, guid: 9f4b3800aaeedb641bc021a1a63c87af, type: 3}
+    weight: 50
+  - value: {fileID: 0}
+    weight: 50

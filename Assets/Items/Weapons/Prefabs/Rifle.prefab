@@ -559,10 +559,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8747775657509529174}
   armsAnimator: {fileID: 0}
+  UsedByAI: 1
   type: 0
   playerCustomPosition: {x: 0, y: 0, z: 0}
+  armsCustomPosition: {x: 0.212, y: -0.244, z: -0.402}
   Settings: {fileID: 11400000, guid: b37e0c490a02ef54a873c61c41142a0d, type: 2}
-  UsedByAI: 1
   canShoot: 0
   Ammo: 0
   MagazineAmmo: 0

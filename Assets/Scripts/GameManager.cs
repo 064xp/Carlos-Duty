@@ -24,10 +24,13 @@ public class GameManager : MonoBehaviour
     public FadeTransition fadeTransition;
     public float fadeInDuration;
     public float delayBetweenHordes;
+    [Header("Development")]
+    public bool startHordeOnMount;
 
     private void Start() {
         Time.timeScale = 1f;
-        LoadHorde();
+        if(startHordeOnMount)
+            LoadHorde();
         fadeTransition.FadeIn(fadeInDuration);
     }
 

@@ -14,6 +14,7 @@ public class Equipable : MonoBehaviour
     public bool UsedByAI = true;
     public Types type;
     public Vector3 playerCustomPosition = Vector3.zero;
+    public Vector3 armsCustomPosition = Vector3.zero;
 
     virtual public string GetName() {
         Debug.LogWarning($"You need to override the GetName method for item {transform.name}");
@@ -21,7 +22,7 @@ public class Equipable : MonoBehaviour
     }
 
     virtual public void OnPickup() {
-        armsAnimator = GameObject.Find("/Player/FPSCamera/FPSArms").GetComponent<Animator>();
+        armsAnimator = GameObject.Find("/Player/FPSCamera/FPSArmsContainer/FPSArms").GetComponent<Animator>();
         UsedByAI = false;
     }
     virtual public void OnPickup(WeaponManager weaponManager) { OnPickup(); }
