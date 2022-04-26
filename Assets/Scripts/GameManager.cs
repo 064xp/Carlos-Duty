@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour
     private GameObject[] spawnPlanes;
     [SerializeField]
     private Horde[] hordes;
+    [SerializeField]
     private int currentHorde = 0;
+    [SerializeField]
     private int enemiesLeft;
 
     public GameObject targetPlane;
@@ -23,7 +25,7 @@ public class GameManager : MonoBehaviour
     public float fadeInDuration;
 
     private void Start() {
-        //LoadHorde();
+        LoadHorde();
         fadeTransition.FadeIn(fadeInDuration);
     }
 
