@@ -38,6 +38,7 @@ public class Powerup : Equipable
         if (amount == 0) {
             amount = 1;
             canUse = false;
+            UsedByAI = true;
             return this.gameObject;
         }
 
@@ -48,6 +49,7 @@ public class Powerup : Equipable
         powerup.canUse = false;
         powerup.amount = 1;
         powerup.animator.enabled = false;
+        powerup.UsedByAI = true;
 
         return clone;
     }

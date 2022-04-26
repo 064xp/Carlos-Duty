@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public MouseLook mouseLook;
     public FadeTransition fadeTransition;
     public float fadeInDuration;
+    public float delayBetweenHordes;
 
     private void Start() {
         LoadHorde();
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
             AIScript.navigationTarget = navigationTarget;
             AIScript.player = player;
             AIScript.shootingTarget = church;
+            AIScript.gameManager = this;
             Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
 
 
@@ -76,17 +78,31 @@ public class GameManager : MonoBehaviour
     }
 
     public void NotifyEnemyKilled() {
+        print("enemy killed");
         enemiesLeft--;
 
         if (enemiesLeft == 0) {
             if(currentHorde == hordes.Length - 1) {
                 print("Game over!");
+                GameOver("¡Haz eliminado a todos los atacantes!");
             } else {
                 print($"Horde {currentHorde} ended");
                 currentHorde++;
-                LoadHorde();
+                StartCoroutine(DelayedNextHorde());
             }
         }
+    }
+
+    IEnumerator DelayedNextHorde() {
+        yield return new WaitForSeconds(delayBetweenHordes);
+        GameObject[] equipables = GameObject.FindGameObjectsWithTag("Equipable");
+
+        foreach(GameObject item in equipables) {
+            if(item.GetComponent<Equipable>().UsedByAI)
+                Destroy(item);
+        }
+
+        LoadHorde();
     }
 
     public void TogglePause() {

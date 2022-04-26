@@ -489,6 +489,9 @@ MonoBehaviour:
   - {fileID: 1482955721}
   hordes:
   - {fileID: 11400000, guid: e97417977f7ad784dbf02a578abec585, type: 2}
+  - {fileID: 11400000, guid: 156b1819a1949734aa7da763d195b39a, type: 2}
+  currentHorde: 0
+  enemiesLeft: 0
   targetPlane: {fileID: 1229702280}
   player: {fileID: 1892144776}
   church: {fileID: 2120551514}
@@ -499,6 +502,7 @@ MonoBehaviour:
   mouseLook: {fileID: 1781898444}
   fadeTransition: {fileID: 388691581}
   fadeInDuration: 2
+  delayBetweenHordes: 5
 --- !u!1 &36107282
 GameObject:
   m_ObjectHideFlags: 0
@@ -16870,7 +16874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1003022835
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35747,7 +35751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae645dde27410b4783a4bb0279b08f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 5000
   churchDoorDestroyed:
     m_PersistentCalls:
       m_Calls:

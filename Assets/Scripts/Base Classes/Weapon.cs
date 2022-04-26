@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Weapon : Equipable {
     public WeaponSettings Settings;
-    public bool UsedByAI = false;
     public bool canShoot = false;
     public int Ammo;
     public int MagazineAmmo;
@@ -30,11 +29,6 @@ public class Weapon : Equipable {
     override public void OnEquip() {
         hud.SetAmmo(MagazineAmmo, Ammo);
         armsAnimator.SetInteger("WeaponID", Settings.weaponID);
-    }
-
-    public override GameObject OnDrop() {
-        UsedByAI = true;
-        return null;
     }
 
     override public void OnPickupEquipped(GameObject gameObject) {

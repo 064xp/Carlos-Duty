@@ -36,6 +36,7 @@ public class EnemyAI : Damagable
     private bool canShoot = true;
     private float fireUntil = 0f;
     public Enemy enemySettings;
+    public GameManager gameManager;
 
     public WeightedValue<GameObject>[] enemyDrops;
 
@@ -48,12 +49,16 @@ public class EnemyAI : Damagable
         equippedWeapon = enemyWeapon.transform.GetChild(0).gameObject;
         // Enemy weapon variants are contained within an empty container
         gun = equippedWeapon.GetComponent<GunScript>();
-        //gun = equippedWeapon.GetComponent<GunScript>();
         gun.UsedByAI = true;
-        equippedWeapon.GetComponent<Animator>().enabled = true;
+        //gun.animator.enabled = true;
+        //equippedWeapon.GetComponent<Animator>().enabled = true;
         equippedWeapon.GetComponent<BoxCollider>().enabled = false;
 
         health = enemySettings.health;
+
+        if(gameManager == null) 
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        
     }
 
     // Update is called once per frame
@@ -194,7 +199,7 @@ public class EnemyAI : Damagable
             equippedWeapon.transform.position = newPos;
             equippedWeapon.transform.localScale = new Vector3(1, 1, 1);
             equippedWeapon.transform.rotation = Quaternion.Euler(0, 0, 0);
-            equippedWeapon.GetComponent<Animator>().enabled = false ;
+            equippedWeapon.GetComponent<GunScript>().animator.enabled = false ;
 
             GameObject drop = WeightedRandomChoice.RandomChoice<GameObject>(enemyDrops);
             if(drop != null) {
@@ -207,6 +212,8 @@ public class EnemyAI : Damagable
             }
         }
 
+
+        gameManager.NotifyEnemyKilled();
         Destroy(this.gameObject, 3f);
     }
 

@@ -11,6 +11,7 @@ public class Equipable : MonoBehaviour
 
     public Animator animator;
     public Animator armsAnimator;
+    public bool UsedByAI = true;
     public Types type;
     public Vector3 playerCustomPosition = Vector3.zero;
 
@@ -21,10 +22,14 @@ public class Equipable : MonoBehaviour
 
     virtual public void OnPickup() {
         armsAnimator = GameObject.Find("/Player/FPSCamera/FPSArms").GetComponent<Animator>();
+        UsedByAI = false;
     }
     virtual public void OnPickup(WeaponManager weaponManager) { OnPickup(); }
     // Return the gameObject to drop. If null, will drop the one that is equipped.
-    virtual public GameObject OnDrop() { return null; }
+    virtual public GameObject OnDrop() {
+        UsedByAI = true;
+        return null; 
+    }
     virtual public void OnPickupEquipped(GameObject gameObject) { }
     virtual public void OnEquip() { }
     virtual public bool CanRun() { return true;  }

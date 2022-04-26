@@ -24,7 +24,8 @@ public class TequilaPowerup : Powerup
     // Start is called before the first frame update
     void Start()
     {
-        //animator.keepAnimatorControllerStateOnDisable = true;
+        if (drunkEffect == null)
+            drunkEffect = GameObject.Find("DrunkEffect").GetComponent<DrunkEffect>();
     }
 
     // Update is called once per frame
