@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public float delayBetweenHordes;
 
     private void Start() {
+        Time.timeScale = 1f;
         LoadHorde();
         fadeTransition.FadeIn(fadeInDuration);
     }

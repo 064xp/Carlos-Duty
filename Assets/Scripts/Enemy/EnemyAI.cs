@@ -50,9 +50,8 @@ public class EnemyAI : Damagable
         // Enemy weapon variants are contained within an empty container
         gun = equippedWeapon.GetComponent<GunScript>();
         gun.UsedByAI = true;
-        //gun.animator.enabled = true;
-        //equippedWeapon.GetComponent<Animator>().enabled = true;
         equippedWeapon.GetComponent<BoxCollider>().enabled = false;
+        agent.speed = enemySettings.movementSpeed; 
 
         health = enemySettings.health;
 

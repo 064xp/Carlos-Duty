@@ -17,9 +17,14 @@ public class WeaponManager : MonoBehaviour
     public UnityEvent OnWeaponChange;
     [SerializeField]
     Animator armsAnimator;
+    private AudioSource audioSource;
+
+    [Header("Sounds")]
+    public SimpleAudioEvent pickupAudio;
 
     private void Start() {
         initialCamFOV = fpsCamera.fieldOfView;
+        audioSource = GetComponent<AudioSource>();
         SelectWeapon();
     }
 
@@ -103,6 +108,8 @@ public class WeaponManager : MonoBehaviour
 
             equipable.OnPickup(this);
         }
+
+        pickupAudio.Play(audioSource);
 
         SelectWeapon();
     }

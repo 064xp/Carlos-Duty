@@ -7,20 +7,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private MoveSettings settings;
     private Vector3 moveDirection;
+    [SerializeField]
     private CharacterController controller;
     [SerializeField]
     private WeaponManager weaponManager;
     [SerializeField]
     private float stamina;
     private float replenishStaminaAfter = 0;
-    [SerializeField]
-    private Animator armsAnimator;
 
     private void Awake() {
-        controller = GetComponent<CharacterController>();
     }
 
     private void Start() {
+        controller = GetComponent<CharacterController>();
         stamina = settings.stamina;
     }
 

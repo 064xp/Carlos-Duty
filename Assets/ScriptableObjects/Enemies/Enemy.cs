@@ -6,8 +6,8 @@ public class Enemy : ScriptableObject {
     public GameObject enemyPrefab;
     public GameObject gunPrefab;
     public FiringPattern firingPattern;
-    public int updateFrequency = 1;
     public float shootDistance = 25f;
     public float followDistance = 125f;
     public float followMemoryTime = 6f;
+    public float movementSpeed = 6f;
 }
