@@ -20,4 +20,4 @@ MonoBehaviour:
   spawnFrequency:
     minValue: 0.4
     maxValue: 4
-  totalEnemies: 12
+  totalEnemies: 15
